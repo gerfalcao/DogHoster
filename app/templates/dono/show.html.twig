@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dono{% endblock %}
+
+{% block body %}
+    <h1>Dono</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ dono.id }}</td>
+            </tr>
+            <tr>
+                <th>Nome</th>
+                <td>{{ dono.nome }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ dono.email }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_dono_index') }}">back to list</a>
+
+    <a href="{{ path('app_dono_edit', {'id': dono.id}) }}">edit</a>
+
+    {{ include('dono/_delete_form.html.twig') }}
+{% endblock %}

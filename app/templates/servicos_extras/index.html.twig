@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ServicosExtras index{% endblock %}
+
+{% block body %}
+    <h1>ServicosExtras index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Banho</th>
+                <th>Sessao_adestramento</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for servicos_extra in servicos_extras %}
+            <tr>
+                <td>{{ servicos_extra.id }}</td>
+                <td>{{ servicos_extra.banho ? 'Yes' : 'No' }}</td>
+                <td>{{ servicos_extra.sessaoAdestramento ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_servicos_extras_show', {'id': servicos_extra.id}) }}">show</a>
+                    <a href="{{ path('app_servicos_extras_edit', {'id': servicos_extra.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_servicos_extras_new') }}">Create new</a>
+{% endblock %}

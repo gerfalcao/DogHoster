@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dono index{% endblock %}
+
+{% block body %}
+    <h1>Dono index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for dono in donos %}
+            <tr>
+                <td>{{ dono.id }}</td>
+                <td>{{ dono.nome }}</td>
+                <td>{{ dono.email }}</td>
+                <td>
+                    <a href="{{ path('app_dono_show', {'id': dono.id}) }}">show</a>
+                    <a href="{{ path('app_dono_edit', {'id': dono.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_dono_new') }}">Cadastrar novo Dono</a>
+    <br><br>
+    <a href="/cachorro/new">Cadastrar novo Cachorro</a>
+    <br>
+    <a href="/new">Agendar nova hospedagem</a>
+
+{% endblock %}

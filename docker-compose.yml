@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   app:
-    container_name: project_app
+    container_name: projetoRobusto
     env_file:
       - .env
     build:
@@ -11,7 +11,7 @@ services:
     volumes:
       - ./app:/var/www/html
     networks:
-      - project-network
+      - app-network
     depends_on:
       - db
 
@@ -25,7 +25,7 @@ services:
       - .docker/db/sql:/sql
       - .docker/db/var:/var/lib/mysql
     networks:
-      - project-network
+      - app-network
 
   nginx:
     build:
@@ -38,9 +38,10 @@ services:
     ports:
       - '${EXT_PORT}:80'
     networks:
-      - project-network
+      - app-network
     depends_on:
       - app
 
 networks:
-  project-network:
+  app-network: 
+  

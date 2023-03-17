@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cachorro{% endblock %}
+
+{% block body %}
+    <h1>Cachorro</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ cachorro.id }}</td>
+            </tr>
+            <tr>
+                <th>Nome</th>
+                <td>{{ cachorro.nome }}</td>
+            </tr>
+            <tr>
+                <th>Porte</th>
+                <td>{{ cachorro.porte }}</td>
+            </tr>
+            <tr>
+                <th>Agressividade</th>
+                <td>{{ cachorro.agressividade }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_cachorro_index') }}">back to list</a>
+
+    <a href="{{ path('app_cachorro_edit', {'id': cachorro.id}) }}">edit</a>
+
+    {{ include('cachorro/_delete_form.html.twig') }}
+{% endblock %}

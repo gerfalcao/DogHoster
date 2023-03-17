@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Cachorro{% endblock %}
+
+{% block body %}
+    <h1>Create new Cachorro</h1>
+
+    {{ include('cachorro/_form.html.twig') }}
+
+    <a href="{{ path('app_cachorro_index') }}">back to list</a>
+{% endblock %}
