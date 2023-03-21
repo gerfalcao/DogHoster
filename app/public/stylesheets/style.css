@@ -1,6 +1,8 @@
 @import './header.css';
 @import './footer.css';
 @import './main.css';
+@import './hospedagem.css';
+@import './outros.css';
 
 body {
   margin: 0;

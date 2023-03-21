@@ -4,13 +4,11 @@ main {
 
 }
 
-
-
 .main-menu {
-  width: 800px;
+  width: 1200px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
+  justify-content: center;
 }
 
 .main-menu a {
@@ -25,6 +23,12 @@ main {
   background-color: #FF571B;
   transition: all 0.5s;
   color: antiquewhite;
+}
+
+.h3 {
+  display: flex;
+  margin: 30 auto 0 auto;
+  justify-content: center;
 }
 
 .lista-hospedagens {

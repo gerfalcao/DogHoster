@@ -1,0 +1,19 @@
+.nova-hospedagem {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 40px 20px;
+  gap: 10px;
+}
+
+.item {
+
+}
+
+.parcial-hospedagem {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 40px 20px;
+  gap: 10px;
+}

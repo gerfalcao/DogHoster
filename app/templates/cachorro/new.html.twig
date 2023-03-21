@@ -7,12 +7,14 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Create new Cachorro</h1>
+<div class="item-show">
+    <div>
+        <h1>Cadastrar Cachorro</h1>
 
-    {{ include('cachorro/_form.html.twig') }}
+        {{ include('cachorro/_form.html.twig') }}
 
-    <a href="{{ path('app_cachorro_index') }}">back to list</a>
-
-
+        <a href="{{ path('app_cachorro_index') }}">voltar para lista de cachorros</a>
+    </div>
+</div>
 {% endblock %}
 

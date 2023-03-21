@@ -1,0 +1,7 @@
+.item-show {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 40px 20px;
+  gap: 10px;
+}

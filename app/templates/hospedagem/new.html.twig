@@ -3,12 +3,19 @@
 {% block title %}New Hospedagem{% endblock %}
 
 {% block body %}
+<div class="nova-hospedagem">
+    <div>
+    <div class="item">
     <h1>Create new Hospedagem</h1>
-
+    </div>
+    <div>
     {{ include('hospedagem/_form.html.twig') }}
-
-    <a href="{{ path('app_hospedagem_index') }}">back to list</a>
-
+    </div>
+    <div>
+    <a href="{{ path('app_hospedagem_index') }}">Voltar para Hospedagens</a>
+    </div>
+    </div>
+</div>
     
 
 {% endblock %}
