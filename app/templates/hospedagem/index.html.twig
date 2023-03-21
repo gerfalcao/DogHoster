@@ -47,11 +47,22 @@
     <a href="/dono/new">Cadastrar novo Dono</a>
 
     <div>
-        {% for hospedagem in hospedagems %}
-            <div><p>Exemplo</p><p>{{ hospedagem.getCachorro}}{{ hospedagem.getCachorro.getDono}}</p></div>
-       
+        {% for hospedagem in hospedagensAtivas %}
+         <div class="slot">{{ hospedagem.getCachorro() }}
+                            <br>Entrada: {{ hospedagem.getDataInicio()|date('Y-m-d') }}
+                            <a href="{{ path('app_hospedagem_show', {'id': hospedagem.id}) }}">Mostrar</a>
+                  
+        </div>
         {% endfor %}
 
+        {% if hospedagensAtivas|length > 15 %}
+        <div class="aviso">Todos os 15 slots de hospedagem estão ocupados. Não é possível agendar novas hospedagens no momento.</div>
+        {% else %}
+        <div class="slot vazio"><a href="{{ path('app_hospedagem_new') }}">Agendar nova Hospedagem</a></div>
+            {% for i in 1..(15 - hospedagensAtivas|length - 1) %}
+            <div class="slot vazio"></div>
+            {% endfor %}
+        {% endif %}
     </div>
 
 {% endblock %}

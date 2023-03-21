@@ -60,14 +60,14 @@ class Hospedagem
         return $this;
     }
 
-    #[Assert\Callback]
-    public function validate(ExecutionContextInterface $context): void
-    {
-        if ($this->getEstado() === 'fechado') {
-            $context->buildViolation('Não é possível alterar uma hospedagem fechada.')
-                ->addViolation();
-        }
-    }
+    // #[Assert\Callback]
+    // public function validate(ExecutionContextInterface $context): void
+    // {
+    //     if ($this->getEstado() === 'fechado') {
+    //         $context->buildViolation('Não é possível alterar uma hospedagem fechada.')
+    //             ->addViolation();
+    //     }
+    // }
 
 
     public function __construct()

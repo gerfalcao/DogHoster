@@ -11,7 +11,7 @@
 <p>Cachorro/Dono: {{ recibo.getCachorroDono() }}</p>
 <p>Entrada {{ recibo.hospedagem.getDataInicio()|date('Y-m-d H:i:s') }}</p>
 <p>Saída: {{ recibo.hospedagem.getDataFim()|date('Y-m-d H:i:s') }}</p>
-<p>Tempo Total: {{ recibo.getTempoTotal().format('%a dias, %h horas, %i minutos') }}</p>
+<p>Tempo Total: {{ recibo.getIntervaloTempo() }}</p>
 <p>Serviços Adicionais: </p>
 {% for servico in recibo.hospedagem.getServicos() %}
 <p>{{ servico.getNome() }}</p>

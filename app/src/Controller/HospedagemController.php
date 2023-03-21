@@ -32,8 +32,11 @@ class HospedagemController extends AbstractController
     #[Route('/', name: 'app_hospedagem_index', methods: ['GET'])]
     public function index(HospedagemRepository $hospedagemRepository): Response
     {
+        $hospedagensAtivas = $hospedagemRepository->findBy(['estado' => 'em aberto']);
+
         return $this->render('hospedagem/index.html.twig', [
             'hospedagems' => $hospedagemRepository->findAll(),
+            'hospedagensAtivas' => $hospedagensAtivas
         ]);
     }
 
@@ -139,12 +142,13 @@ class HospedagemController extends AbstractController
         $recibo = new Recibo();
         $recibo->setHospedagem($hospedagem);
         $recibo->setCachorroDono();
-        $recibo->setTempoTotal();
+        $recibo->setIntervaloTempo();
         $recibo->setPrecoDiaria();
         $recibo->setPrecoServicos();
         $recibo->setPrecoTotal();
+        $recibo->setDataFechamento();
         
-        // $this->em->flush();
+        $this->em->flush();
         return $this->render('recibo/index.html.twig', [
             'recibo' => $recibo
         ]);
@@ -179,6 +183,8 @@ class HospedagemController extends AbstractController
 
         return $this->redirectToRoute('app_hospedagem_show', ['id' => $hospedagem->getId()], Response::HTTP_SEE_OTHER);
     }
+
+    
    
  
 }

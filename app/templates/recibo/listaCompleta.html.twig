@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista de Recibos{% endblock %}
+
+{% block body %}
+
+<table>
+  <tr>
+    <td>
+    Nº Recibo
+    </td>
+    <td>
+    Cachorro / Dono
+    </td>
+    <td>
+    Preço Total
+    </td>
+    <td>
+    Data de Fechamento
+    </td>
+  </tr>
+  {% for recibo in recibos %}
+  <tr>
+   
+    <td>
+    {{ recibo.id }}
+    </td>
+ 
+    <td>
+    {{ recibo.getCachorroDono() }}
+    </td>
+
+    <td>
+    R$ {{ recibo.getPrecoTotal() }}
+    </td>
+
+    <td>
+    {{ recibo.getDataFechamento()|date('Y-m-d H:i:s') }}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}

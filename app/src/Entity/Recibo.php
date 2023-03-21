@@ -21,8 +21,8 @@ class Recibo
      #[ORM\Column(length: 255)]
     private ?string $cachorro_dono = null;
 
-    #[ORM\Column(type: Types::TIME_MUTABLE)]
-    private ?\DateInterval $tempo_total = null;
+    // #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
+    // private ?\DateInterval $tempo_total = null;
 
     #[ORM\OneToOne(mappedBy: 'recibo', cascade: ['persist', 'remove'])]
     private ?Hospedagem $hospedagem = null;
@@ -35,6 +35,12 @@ class Recibo
 
     #[ORM\Column]
     private ?float $preco_total = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $data_fechamento = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $tempo_total_ = null;
 
      public function getId(): ?int
     {
@@ -56,16 +62,15 @@ class Recibo
         return $this;
     }
 
-   
-    public function getTempoTotal(): ?\DateInterval
+    public function getIntervaloTempo ()
     {
-        return $this->tempo_total;
+        return $this->tempo_total_;
     }
 
-    public function setTempoTotal()
+    public function setIntervaloTempo ()
     {
-        $this->tempo_total = $this->hospedagem->getDuration();
-        
+
+        $this->tempo_total_ = $this->hospedagem->getDuration()->format('%a dias, %h horas, %i minutos');
         return $this;
     }
 
@@ -123,6 +128,18 @@ class Recibo
     public function setPrecoTotal()
     {
         $this->preco_total = $this->hospedagem->calcularPreco();
+
+        return $this;
+    }
+
+    public function getDataFechamento(): ?\DateTimeInterface
+    {
+        return $this->data_fechamento;
+    }
+
+    public function setDataFechamento()
+    {
+        $this->data_fechamento = $this->hospedagem->getDataFim();
 
         return $this;
     }
