@@ -3,66 +3,45 @@
 {% block title %}Hospedagem index{% endblock %}
 
 {% block body %}
-    <h1>Hospedagem index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Cão</th>
-                <th>Dono</th>
-                <th>Data_inicio</th>
-                <th>Data_fim</th>
-                <th>Duração total</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for hospedagem in hospedagems %}
-            <tr>
-                <td>{{ hospedagem.id }}</td>
-                <td>{{ hospedagem.getCachorro}}</td>
-                <td>{{ hospedagem.getCachorro.getDono}}</td>
-                <td>{{ hospedagem.dataInicio ? hospedagem.dataInicio|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ hospedagem.dataFim ? hospedagem.dataFim|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ hospedagem.getDuration().format('%a dias, %h horas, %i minutos') }}</td>
-                <td></td>
-                <td>
-                    <a href="{{ path('app_hospedagem_show', {'id': hospedagem.id}) }}">show</a>
-                    <a href="{{ path('app_hospedagem_edit', {'id': hospedagem.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_hospedagem_new') }}">Agendar nova Hospedagem</a>
-    <br><br>
-    <a href="/cachorro/new">Cadastrar novo Cachorro</a>
-    <br>
-    <a href="/dono/new">Cadastrar novo Dono</a>
-
-    <div>
-        {% for hospedagem in hospedagensAtivas %}
-         <div class="slot">{{ hospedagem.getCachorro() }}
-                            <br>Entrada: {{ hospedagem.getDataInicio()|date('Y-m-d') }}
-                            <a href="{{ path('app_hospedagem_show', {'id': hospedagem.id}) }}">Mostrar</a>
-                  
+<main>
+    <div class="main-menu">
+       
+     
+        <div>
+            <a href="{{ path('app_hospedagem_new') }}">Agendar nova Hospedagem</a>
+        </div>   
+        <div>
+            <a href="/cachorro/new">Cadastrar novo Cachorro</a>
+        </div>   
+        <div>
+            <a href="/dono/new">Cadastrar novo Dono</a>
         </div>
+    </div>
+    <div class="h3">
+            <h3>Hospedagens</h3>
+    </div>
+    <div class="lista-hospedagens">
+    
+        {% for hospedagem in hospedagensAtivas %}
+            <div class="slot">{{ hospedagem.getCachorro() }}
+                            <br>Entrada: {{ hospedagem.getDataInicio()|date('Y-m-d') }}
+                                <div>
+                                <a href="{{ path('app_hospedagem_show', {'id': hospedagem.id}) }}">Mostrar</a>
+                                </div>
+            </div>
         {% endfor %}
 
         {% if hospedagensAtivas|length > 15 %}
         <div class="aviso">Todos os 15 slots de hospedagem estão ocupados. Não é possível agendar novas hospedagens no momento.</div>
         {% else %}
-        <div class="slot vazio"><a href="{{ path('app_hospedagem_new') }}">Agendar nova Hospedagem</a></div>
+        <div class="slot-vazio"><a href="{{ path('app_hospedagem_new') }}">Agendar nova Hospedagem</a></div>
             {% for i in 1..(15 - hospedagensAtivas|length - 1) %}
-            <div class="slot vazio"></div>
+            <div class="slot-vazio"></div>
             {% endfor %}
         {% endif %}
     </div>
+
+
+</main>
 
 {% endblock %}

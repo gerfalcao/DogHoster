@@ -1,0 +1,58 @@
+main {
+  max-width: 1500px;
+  margin: 0 auto;
+
+}
+
+
+
+.main-menu {
+  width: 800px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.main-menu a {
+  padding: 5px 10px;
+  text-decoration: none;
+  color:black;
+  border-radius: 3px;
+  margin: 10px;
+}
+
+.main-menu a:hover {
+  background-color: #FF571B;
+  transition: all 0.5s;
+  color: antiquewhite;
+}
+
+.lista-hospedagens {
+  width: 60%;
+  margin: 20px auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.slot {
+  width: 100px;
+  height: 100px;
+  padding: 20px;
+  border: 2px solid #FF913C;
+  background-color: #FFB371;
+  border-radius: 4px;
+  margin: 2px;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.slot-vazio {
+  border: 2px solid #FF7959;
+  background-color: #FF9E7D;
+  padding: 20px;
+  margin: 2px;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  border-radius: 4px;
+}

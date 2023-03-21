@@ -1,0 +1,15 @@
+header {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.header-logo {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+
+}
+
+.img-logo {
+  width: 50%;
+}
