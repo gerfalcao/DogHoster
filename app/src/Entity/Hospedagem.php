@@ -3,11 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\HospedagemRepository;
+use DateInterval;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
+use DateTimeInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: HospedagemRepository::class)]
 class Hospedagem
@@ -34,9 +38,42 @@ class Hospedagem
     #[ORM\OneToMany(mappedBy: 'hospedagem', targetEntity: Servicos::class, orphanRemoval: true)]
     private Collection $servicos;
 
+    #[ORM\OneToMany(mappedBy: 'hospedagem', targetEntity: Ocorrencias::class, orphanRemoval: true)]
+    private Collection $ocorrencias;
+
+    // Validação de "Estado" da hospedagem, aberta ou fechada. 
+   
+    #[ORM\Column(type: "string", length: 20)]
+    #[Assert\NotBlank]
+    #[Assert\Choice(["em aberto", "fechado"])]
+    private $estado = 'em aberto';
+
+    public function getEstado(): string
+    {
+        return $this->estado;
+    }
+
+    public function setEstado(string $estado): self
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    #[Assert\Callback]
+    public function validate(ExecutionContextInterface $context): void
+    {
+        if ($this->getEstado() === 'fechado') {
+            $context->buildViolation('Não é possível alterar uma hospedagem fechada.')
+                ->addViolation();
+        }
+    }
+
+
     public function __construct()
     {
         $this->servicos = new ArrayCollection();
+        $this->ocorrencias = new ArrayCollection();
     }
 
     public function __toString()
@@ -101,17 +138,39 @@ class Hospedagem
 
     public function getDuration(): \DateInterval
     {   
-        $duration = $this->data_inicio->diff(new DateTime);
-        return $duration;
+        if ($this->data_fim == true) {
+            $data_dif = $this->data_fim;
+            $duration = $this->data_inicio->diff($data_dif);
+            return $duration;
+         } else { 
+            $interval = new DateInterval('PT24H');
+            return $interval;
+            
+         };
+       
     }
 
-    public function calcularPreco(){
+    public function calcularTotalDiarias() {
         $total_minutos = ($this->getDuration()->days * 24 * 60) + ($this->getDuration()->h *60) + $this->getDuration()->i;
         $num_diarias_completas = floor($total_minutos / (24 * 60));
         $num_diarias_parciais = ceil(($total_minutos % (24 * 60)) / 60);
  
         $valor_diaria = 30;
-        $valor_total = ($num_diarias_completas + ($num_diarias_parciais > 0 ? 1 : 0)) * $valor_diaria;
+        $valor_total_diarias = ($num_diarias_completas + ($num_diarias_parciais > 0 ? 1 : 0)) * $valor_diaria;
+        return $valor_total_diarias;
+    }
+
+    public function calcularTotalServicos() {
+        $valor_total_servicos = 0;
+        foreach ($this->servicos as $servico) { 
+            $valor_total_servicos += $servico->getPreco();
+        };
+        return $valor_total_servicos;
+    }
+
+
+    public function calcularPreco(){
+        $valor_total = $this->calcularTotalDiarias() + $this->calcularTotalServicos();
         return $valor_total;
      }
 
@@ -139,6 +198,36 @@ class Hospedagem
             // set the owning side to null (unless already changed)
             if ($servico->getHospedagem() === $this) {
                 $servico->setHospedagem(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ocorrencias>
+     */
+    public function getOcorrencias(): Collection
+    {
+        return $this->ocorrencias;
+    }
+
+    public function addOcorrencia(Ocorrencias $ocorrencia): self
+    {
+        if (!$this->ocorrencias->contains($ocorrencia)) {
+            $this->ocorrencias->add($ocorrencia);
+            $ocorrencia->setHospedagem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOcorrencia(Ocorrencias $ocorrencia): self
+    {
+        if ($this->ocorrencias->removeElement($ocorrencia)) {
+            // set the owning side to null (unless already changed)
+            if ($ocorrencia->getHospedagem() === $this) {
+                $ocorrencia->setHospedagem(null);
             }
         }
 

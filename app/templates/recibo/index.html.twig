@@ -8,14 +8,19 @@
 
 <p>Recibo da hospedagem ID {{ recibo.hospedagem.id }}:</p>
 
-<p>Cachorro/Dono: {{ recibo.cachorro_dono }}</p>
+<p>Cachorro/Dono: {{ recibo.getCachorroDono() }}</p>
 <p>Entrada {{ recibo.hospedagem.getDataInicio()|date('Y-m-d H:i:s') }}</p>
 <p>Saída: {{ recibo.hospedagem.getDataFim()|date('Y-m-d H:i:s') }}</p>
-<p>Tempo Total: {{ recibo.tempo_total }}</p>
-<p>Serviços Adicionais: {{ recibo.servicos_adicionais }}</p>
-<p></p>
-<p></p>
-
+<p>Tempo Total: {{ recibo.getTempoTotal().format('%a dias, %h horas, %i minutos') }}</p>
+<p>Serviços Adicionais: </p>
+{% for servico in recibo.hospedagem.getServicos() %}
+<p>{{ servico.getNome() }}</p>
+<p>R$ {{ servico.getPreco() }}</p> 
+{% endfor %}
+<p>Preço Total Diária</p>
+<p>R$ {{ recibo.getPrecoDiaria() }}</p>
+<p>Preço Final</p>
+<p>R$ {{ recibo.getPrecoTotal() }}</p>
 
 
 

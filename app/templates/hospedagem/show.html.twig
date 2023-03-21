@@ -5,6 +5,18 @@
 {% block body %}
     <h1>Parcial da hospedagem de {{ hospedagem.getCachorro()}}</h1>
 
+    
+    <div>
+        <p>Estado da Hospedagem: {{ hospedagem.getEstado() }} </p>
+        {% if hospedagem.getEstado() == 'em aberto' %}
+        <a href="{{ path('fechar_hospedagem', {'id': hospedagem.id}) }}" class="btn btn-danger">Fechar Hospedagem</a>
+    {% else %}
+        <a href="{{ path('abrir_hospedagem', {'id': hospedagem.id}) }}" class="btn btn-primary">Abrir Hospedagem</a>
+    {% endif %}<br>
+        <div id="editDiv" {% if hospedagem.estado == 'em aberto' %}style="display: none"{% endif %}>
+            <button type="button" onclick="window.location.href='{{ path('app_hospedagem_recibo', {'id': hospedagem.id}) }}'">Ver Recibo</button>
+        </div>
+    </div>
     <table class="table">
         <tbody>
             <tr>
@@ -29,43 +41,85 @@
             <tr>
                 <th>Data_fim</th>
                 {% if (hospedagem.dataFim != true) %}
-                <td>Indefinido</td>
+                <td> 
+                    <div id="editDiv" {% if hospedagem.estado == 'fechado' %}style="display: none"{% endif %}>
+                        <form action="{{ path('app_hospedagem_show', { 'id': hospedagem.getId() }) }}" method="GET">
+                        <label for="checkout"></label>
+                        <input type="date" id="checkout" name="checkout" value="{{ "now"|date("Y-m-d  H:i:s") }}">
+                        <button type="submit">Atualizar</button>
+                        </form> 
+                    </div>
+                </td>
                 {% else %}
                 <td>{{ hospedagem.dataFim ? hospedagem.dataFim|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <div id="editDiv" {% if hospedagem.estado == 'fechado' %}style="display: none"{% endif %}>
+                        <button type="button" id="add-data-btn">Atualizar data</button>
+                        <div id="add-data-form" style="display:none;">
+                            <form action="{{ path('app_hospedagem_show', { 'id': hospedagem.getId() }) }}" method="GET">
+                            <label for="checkout">Nova data fim:</label>
+                            <input type="date" id="checkout" name="checkout" value="{{ "now"|date("Y-m-d  H:i:s") }}">
+                            <button type="submit">Atualizar</button>
+                            </form>
+                        </div>
+                    </div>
+                </td>
                 {% endif %}
             </tr>
             <tr>
                 <th>Duração Total</th>
-                {# <td>{{ hospedagem.getDuration().format('%a dias, %h horas, %i minutos') }}</td> #}
+                <td>{{ hospedagem.getDuration().format('%a dias, %h horas, %i minutos') }}</td>
             </tr>
-            {# <tr>
+            <tr>
+                <th>Preço Estadia</th>
+                <td>R$ {{ valor_diarias }}</td>
+            </tr>
+            <tr>
                 <th>Serviços adicionais</th>
-                {% for servico in hospedagem.getServicosAdicionais() %}
-                <td>Sessões de adestramento: {{ servico.getSessaoAdestramento() }}</td>
-                <td>Banhos: {{ servico.getBanho() }}</td>
+                {% for servico in hospedagem.getServicos() %}
+                 <tr>
+                <td>Serviço {{ servico.getNome() }}</td>
+                <td>R$ {{ servico.getPreco() }} reais</td>
+                {# <td> <button type="button" for="remove-servico" id="remove-servico" name="remove-servico">Remover</button> </td> #}
+                </tr>
                 {% endfor %}
-            </tr> #}
+                <th>Preço Serviços</th>
+                <td>R$ {{ valor_servico }}</td>
+
+            </tr>
             <tr>
                 <th>Preço Parcial</th>
                 <td>R$ {{ valor_total }},00 reais </td>
             </tr>
         </tbody>
     </table>
+   <div id="editDiv" {% if hospedagem.estado == 'fechado' %}style="display: none"{% endif %}> 
+        <p>Clique para adicionar serviços:</p>
+    <button type="button" id="add-servico-btn">Adicionar Serviços</button>
+        <div id="add-servico-form" style="display:none;">
+    {{ form_start(form_servico) }}
+        {{ form_row(form_servico.nome) }}
+        {{ form_row(form_servico.preco) }}
+        {{ form_row(form_servico.quantidade) }}
+        {# {{ form_row(form.hospedagem) }} #}
+        <button class="btn">{{ button_label|default('Registrar') }}</button>
+    {{ form_end(form_servico) }}
 
-    <p>Clique para adicionar serviços:</p>
-<button type="button" id="add-servico-btn">Adicionar Serviços</button>
-    <div id="add-servico-form" style="display:none;">
-{{ form_start(form) }}
-    {{ form_row(form.nome) }}
-    {{ form_row(form.preco) }}
-    {{ form_row(form.quantidade) }}
-    {# {{ form_row(form.hospedagem) }} #}
-     <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
-
-    <p>teste</p>
+        </div>
     </div>
-    
+    <div>
+        <p>Registro de ocorrências</p>
+        {% for ocorrencia in hospedagem.getOcorrencias() %}
+        <p> {{ ocorrencia.getOcorrencia() }} </p>
+        {% endfor %}
+        <div id="editDiv" {% if hospedagem.estado == 'fechado' %}style="display: none"{% endif %}>
+        {{ form_start(form_ocorrencia)}}
+            {{ form_row(form_ocorrencia.ocorrencia)}}
+               <button class="btn">{{ button_label|default('Registrar ocorrência') }}</button>
+        {{ form_end(form_ocorrencia)}}
+        </div>
+
+    </div>    
 
     <a href="{{ path('app_hospedagem_index') }}">back to list</a>
 
@@ -91,6 +145,17 @@
             formDiv.style.display = 'none';
         }
     });
+
+    document.getElementById('add-data-btn').addEventListener('click', function() {
+    let formDiv = document.getElementById('add-data-form');
+    if (formDiv.style.display === 'none') {
+        formDiv.style.display = 'block';
+    } else {
+        formDiv.style.display = 'none';
+    }
+    });
+
+      
 </script>
 
 

@@ -18,38 +18,29 @@ class Recibo
     #[ORM\Column]
     private ?int $id = null;
 
-    // #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    // #[ORM\JoinColumn(nullable: false)]
-    // private ?Hospedagem $hospedagem = null;
-
-
-
-    #[ORM\Column(length: 255)]
+     #[ORM\Column(length: 255)]
     private ?string $cachorro_dono = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
-    private ?\DateTimeInterface $tempo_total = null;
+    private ?\DateInterval $tempo_total = null;
 
     #[ORM\OneToOne(mappedBy: 'recibo', cascade: ['persist', 'remove'])]
     private ?Hospedagem $hospedagem = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $preco_servicos = null;
+
+    #[ORM\Column]
+    private ?float $preco_diaria = null;
+
+    #[ORM\Column]
+    private ?float $preco_total = null;
 
      public function getId(): ?int
     {
         return $this->id;
     }
-
-    // public function getHospedagem(): ?Hospedagem
-    // {
-    //     return $this->hospedagem;
-    // }
-
-    // public function setHospedagem(Hospedagem $hospedagem): self
-    // {
-    //     $this->hospedagem = $hospedagem;
-
-    //     return $this;
-    // }
-
+ 
 
     public function getCachorroDono(): ?string
     {
@@ -66,15 +57,15 @@ class Recibo
     }
 
    
-    public function getTempoTotal(): ?\DateTimeInterface
+    public function getTempoTotal(): ?\DateInterval
     {
         return $this->tempo_total;
     }
 
-    public function setTempoTotal(\DateTimeInterface $tempo_total): self
+    public function setTempoTotal()
     {
-        $this->tempo_total = $tempo_total;
-
+        $this->tempo_total = $this->hospedagem->getDuration();
+        
         return $this;
     }
 
@@ -96,6 +87,42 @@ class Recibo
         }
 
         $this->hospedagem = $hospedagem;
+
+        return $this;
+    }
+
+    public function getPrecoServicos(): ?float
+    {
+        return $this->preco_servicos;
+    }
+
+    public function setPrecoServicos()
+    {
+        $this->preco_servicos = $this->hospedagem->calcularTotalServicos();
+
+        return $this;
+    }
+
+    public function getPrecoDiaria(): ?float
+    {
+        return $this->preco_diaria;
+    }
+
+    public function setPrecoDiaria()
+    {
+        $this->preco_diaria = $this->hospedagem->calcularTotalDiarias();
+
+        return $this;
+    }
+
+    public function getPrecoTotal(): ?float
+    {
+        return $this->preco_total;
+    }
+
+    public function setPrecoTotal()
+    {
+        $this->preco_total = $this->hospedagem->calcularPreco();
 
         return $this;
     }
