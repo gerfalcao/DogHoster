@@ -13,8 +13,7 @@
                 <th>Dono</th>
                 <th>Data_inicio</th>
                 <th>Data_fim</th>
-                <th>TemBanho</th>
-                <th>TemAdestramento</th>
+                <th>Duração total</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -26,8 +25,8 @@
                 <td>{{ hospedagem.getCachorro.getDono}}</td>
                 <td>{{ hospedagem.dataInicio ? hospedagem.dataInicio|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ hospedagem.dataFim ? hospedagem.dataFim|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ hospedagem.temBanho ? 'Yes' : 'No' }}</td>
-                <td>{{ hospedagem.temAdestramento ? 'Yes' : 'No' }}</td>
+                <td>{{ hospedagem.getDuration().format('%a dias, %h horas, %i minutos') }}</td>
+                <td></td>
                 <td>
                     <a href="{{ path('app_hospedagem_show', {'id': hospedagem.id}) }}">show</a>
                     <a href="{{ path('app_hospedagem_edit', {'id': hospedagem.id}) }}">edit</a>
@@ -46,4 +45,13 @@
     <a href="/cachorro/new">Cadastrar novo Cachorro</a>
     <br>
     <a href="/dono/new">Cadastrar novo Dono</a>
+
+    <div>
+        {% for hospedagem in hospedagems %}
+            <div><p>Exemplo</p><p>{{ hospedagem.getCachorro}}{{ hospedagem.getCachorro.getDono}}</p></div>
+       
+        {% endfor %}
+
+    </div>
+
 {% endblock %}

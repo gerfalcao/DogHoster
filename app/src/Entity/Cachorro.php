@@ -28,8 +28,11 @@ class Cachorro
     #[ORM\JoinColumn(nullable: false)]
     private ?Dono $dono = null;
 
-    #[ORM\OneToMany(mappedBy: 'Cachorro', targetEntity: Hospedagem::class)]
+    #[ORM\OneToMany(mappedBy: 'cachorro', targetEntity: Hospedagem::class)]
     private Collection $hospedagems;
+
+    // #[ORM\OneToMany(mappedBy: 'Cachorro', targetEntity: Hospedagem::class)]
+    // private Collection $hospedagems;
 
     public function __construct()
     {
@@ -39,7 +42,7 @@ class Cachorro
 
     public function __toString()
     {
-       return $this->nome; 
+       return $this->nome . ' / ' . $this->getDono();
     }    
 
     public function getId(): ?int
@@ -95,6 +98,36 @@ class Cachorro
         return $this;
     }
 
+    // /**
+    //  * @return Collection<int, Hospedagem>
+    //  */
+    // public function getHospedagems(): Collection
+    // {
+    //     return $this->hospedagems;
+    // }
+
+    // public function addHospedagem(Hospedagem $hospedagem): self
+    // {
+    //     if (!$this->hospedagems->contains($hospedagem)) {
+    //         $this->hospedagems->add($hospedagem);
+    //         $hospedagem->setCachorro($this);
+    //     }
+
+    //     return $this;
+    // }
+
+    // public function removeHospedagem(Hospedagem $hospedagem): self
+    // {
+    //     if ($this->hospedagems->removeElement($hospedagem)) {
+    //         // set the owning side to null (unless already changed)
+    //         if ($hospedagem->getCachorro() === $this) {
+    //             $hospedagem->setCachorro(null);
+    //         }
+    //     }
+
+    //     return $this;
+    // }
+
     /**
      * @return Collection<int, Hospedagem>
      */
@@ -125,5 +158,6 @@ class Cachorro
         return $this;
     }
 
+ 
    
 }

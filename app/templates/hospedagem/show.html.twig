@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hospedagem{% endblock %}
+{% block title %}Hospedagem de {{ hospedagem.getCachorro()}}{% endblock %}
 
 {% block body %}
-    <h1>Hospedagem</h1>
+    <h1>Parcial da hospedagem de {{ hospedagem.getCachorro()}}</h1>
 
     <table class="table">
         <tbody>
@@ -11,28 +11,88 @@
                 <th>Id</th>
                 <td>{{ hospedagem.id }}</td>
             </tr>
+
+            <tr>
+                <th>Cachorro</th>
+                <td>{{ hospedagem.cachorro.getNome() }}</td>
+            </tr>
+
+             <tr>
+                <th>Dono</th>
+                <td>{{ hospedagem.cachorro.getDono() }}</td>
+            </tr>
+
             <tr>
                 <th>Data_inicio</th>
                 <td>{{ hospedagem.dataInicio ? hospedagem.dataInicio|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
                 <th>Data_fim</th>
+                {% if (hospedagem.dataFim != true) %}
+                <td>Indefinido</td>
+                {% else %}
                 <td>{{ hospedagem.dataFim ? hospedagem.dataFim|date('Y-m-d H:i:s') : '' }}</td>
+                {% endif %}
             </tr>
             <tr>
-                <th>TemBanho</th>
-                <td>{{ hospedagem.temBanho ? 'Yes' : 'No' }}</td>
+                <th>Duração Total</th>
+                {# <td>{{ hospedagem.getDuration().format('%a dias, %h horas, %i minutos') }}</td> #}
             </tr>
+            {# <tr>
+                <th>Serviços adicionais</th>
+                {% for servico in hospedagem.getServicosAdicionais() %}
+                <td>Sessões de adestramento: {{ servico.getSessaoAdestramento() }}</td>
+                <td>Banhos: {{ servico.getBanho() }}</td>
+                {% endfor %}
+            </tr> #}
             <tr>
-                <th>TemAdestramento</th>
-                <td>{{ hospedagem.temAdestramento ? 'Yes' : 'No' }}</td>
+                <th>Preço Parcial</th>
+                <td>R$ {{ valor_total }},00 reais </td>
             </tr>
         </tbody>
     </table>
+
+    <p>Clique para adicionar serviços:</p>
+<button type="button" id="add-servico-btn">Adicionar Serviços</button>
+    <div id="add-servico-form" style="display:none;">
+{{ form_start(form) }}
+    {{ form_row(form.nome) }}
+    {{ form_row(form.preco) }}
+    {{ form_row(form.quantidade) }}
+    {# {{ form_row(form.hospedagem) }} #}
+     <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+
+    <p>teste</p>
+    </div>
+    
 
     <a href="{{ path('app_hospedagem_index') }}">back to list</a>
 
     <a href="{{ path('app_hospedagem_edit', {'id': hospedagem.id}) }}">edit</a>
 
     {{ include('hospedagem/_delete_form.html.twig') }}
+
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    {# <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script>
+        // In your Javascript (external .js resource or <script> tag)
+     $(document).ready(function() {
+        $('.select2').select2();
+        });     
+    </script> #}
+ <script>
+    document.getElementById('add-servico-btn').addEventListener('click', function() {
+        let formDiv = document.getElementById('add-servico-form');
+        if (formDiv.style.display === 'none') {
+            formDiv.style.display = 'block';
+        } else {
+            formDiv.style.display = 'none';
+        }
+    });
+</script>
+
+
+
 {% endblock %}

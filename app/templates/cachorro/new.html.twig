@@ -2,10 +2,17 @@
 
 {% block title %}New Cachorro{% endblock %}
 
+{% block stylesheets %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+
 {% block body %}
     <h1>Create new Cachorro</h1>
 
     {{ include('cachorro/_form.html.twig') }}
 
     <a href="{{ path('app_cachorro_index') }}">back to list</a>
+
+
 {% endblock %}
+

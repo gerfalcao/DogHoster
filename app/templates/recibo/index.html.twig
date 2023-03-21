@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recibo {{ recibo.id }}{% endblock %}
+
+{% block body %}
+
+<h1>Recibo hospedagem {{ recibo.hospedagem.id }} </h1>
+
+<p>Recibo da hospedagem ID {{ recibo.hospedagem.id }}:</p>
+
+<p>Cachorro/Dono: {{ recibo.cachorro_dono }}</p>
+<p>Entrada {{ recibo.hospedagem.getDataInicio()|date('Y-m-d H:i:s') }}</p>
+<p>Saída: {{ recibo.hospedagem.getDataFim()|date('Y-m-d H:i:s') }}</p>
+<p>Tempo Total: {{ recibo.tempo_total }}</p>
+<p>Serviços Adicionais: {{ recibo.servicos_adicionais }}</p>
+<p></p>
+<p></p>
+
+
+
+
+{% endblock %}
