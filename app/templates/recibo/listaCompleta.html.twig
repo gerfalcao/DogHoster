@@ -3,7 +3,8 @@
 {% block title %}Lista de Recibos{% endblock %}
 
 {% block body %}
-
+<div class="item-show">
+<div>
 <table>
   <tr>
     
@@ -29,7 +30,7 @@
     </td>
  
     <td>
-    {{ recibo.getCachorroDono() }}
+    {{ recibo.getHospedagem().getCachorro() }}
     </td>
 
     <td>
@@ -47,5 +48,7 @@
   </tr>
   {% endfor %}
 </table>
+</div>
+</div>
 
 {% endblock %}

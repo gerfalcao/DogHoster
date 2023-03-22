@@ -9,7 +9,7 @@
 
 <p>Recibo da hospedagem ID {{ recibo.hospedagem.id }}:</p>
 
-<p><b>Cachorro/Dono:</b> {{ recibo.getCachorroDono() }}</p>
+<p><b>Cachorro/Dono:</b> {{ recibo.getHospedagem().getCachorro() }}</p>
 <p><b>Entrada:</b> {{ recibo.hospedagem.getDataInicio()|date('Y-m-d H:i:s') }}</p>
 <p><b>Saída:</b> {{ recibo.hospedagem.getDataFim()|date('Y-m-d H:i:s') }}</p>
 <p><b>Tempo Total:</b> {{ recibo.getIntervaloTempo() }}</p>

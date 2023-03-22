@@ -9,16 +9,21 @@
 
     
     <div>
-        <p>Estado da Hospedagem: {{ hospedagem.getEstado() }} </p>
+        <p>Estado da Hospedagem: <b style="color:#FF0000"> {{ hospedagem.getEstado() }}</b> </p>
         {% if hospedagem.getEstado() == 'em aberto' %}
         <a href="{{ path('fechar_hospedagem', {'id': hospedagem.id}) }}" class="btn btn-danger">Fechar Hospedagem</a>
     {% else %}
         <a href="{{ path('abrir_hospedagem', {'id': hospedagem.id}) }}" class="btn btn-primary">Abrir Hospedagem</a>
-    {% endif %}<br>
+    {% endif %}<p></p>
         <div id="editDiv" {% if hospedagem.estado == 'em aberto' %}style="display: none"{% endif %}>
+            {% if hospedagem.getDataFim() != true %}
+            <p>Defina uma data de fechamento da hospedagem</p>
+            {% else %}
             <button type="button" onclick="window.location.href='{{ path('app_hospedagem_recibo', {'id': hospedagem.id}) }}'">Ver Recibo</button>
+            {% endif %}
         </div>
     </div>
+   
     <table class="table">
         <tbody>
             <tr>
@@ -46,9 +51,8 @@
                 <td> 
                     <div id="editDiv" {% if hospedagem.estado == 'fechado' %}style="display: none"{% endif %}>
                         <form action="{{ path('app_hospedagem_show', { 'id': hospedagem.getId() }) }}" method="GET">
-                        <label for="checkout"></label>
-                        <input type="date" id="checkout" name="checkout" value="{{ "now"|date("Y-m-d  H:i:s") }}">
-                        <button type="submit">Atualizar</button>
+                         <input type="date" id="checkout" name="checkout" value="{{ "now"|date("Y-m-d  H:i:s") }}">
+                         <button type="submit">Atualizar</button>
                         </form> 
                     </div>
                 </td>
@@ -59,9 +63,9 @@
                         <button type="button" id="add-data-btn">Atualizar data</button>
                         <div id="add-data-form" style="display:none;">
                             <form action="{{ path('app_hospedagem_show', { 'id': hospedagem.getId() }) }}" method="GET">
-                            <label for="checkout">Nova data fim:</label>
-                            <input type="date" id="checkout" name="checkout" value="{{ "now"|date("Y-m-d  H:i:s") }}">
-                            <button type="submit">Atualizar</button>
+                                <label for="checkout">Nova data fim:</label>
+                                <input type="date" id="checkout" name="checkout" value="{{ "now"|date("Y-m-d  H:i:s") }}">
+                                <button type="submit">Atualizar</button>
                             </form>
                         </div>
                     </div>
@@ -80,21 +84,21 @@
                 <th>Serviços adicionais</th>
                 {% for servico in hospedagem.getServicos() %}
                  <tr>
-                <td>Serviço {{ servico.getNome() }}</td>
+                <td>+ {{ servico.getNome() }}</td>
                 <td>R$ {{ servico.getPreco() }} reais</td>
-                {# <td> <button type="button" for="remove-servico" id="remove-servico" name="remove-servico">Remover</button> </td> #}
+        
                 </tr>
                 {% endfor %}
                 <th>Preço Serviços</th>
                 <td>R$ {{ valor_servico }}</td>
 
             </tr>
-            <tr>
-                <th>Preço Parcial</th>
-                <td>R$ {{ valor_total }},00 reais </td>
-            </tr>
+            <hr>
+       
         </tbody>
     </table>
+    <hr>
+    <div><b>Preço Parcial:</b> R$ {{ valor_total }},00 reais </div>
    <div id="editDiv" {% if hospedagem.estado == 'fechado' %}style="display: none"{% endif %}> 
         <p>Clique para adicionar serviços:</p>
     <button type="button" id="add-servico-btn">Adicionar Serviços</button>
@@ -126,7 +130,7 @@
     <a href="{{ path('app_hospedagem_index') }}">voltar para lista de hospedagens</a>
 
     <a href="{{ path('app_hospedagem_edit', {'id': hospedagem.id}) }}">editar hospedagem</a>
-
+    <p></p>
     {{ include('hospedagem/_delete_form.html.twig') }}
  </div>     
  

@@ -1,12 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Cachorro index{% endblock %}
+{% block title %}Cachorro índice{% endblock %}
 
+ 
 {% block body %}
+{% block mainMenu %}
+        <div class="main-menu">
+       
+        <div> 
+
+            Passo 1:<a href="/dono/new"> Cadastrar novo Dono</a>
+        </div>
+        <div>
+
+            Passo 2:<a href="/cachorro/new"> Cadastrar novo Cachorro</a>
+        </div>   
+        <div>
+
+            Passo 3:<a href="{{ path('app_hospedagem_new') }}"> Agendar nova Hospedagem</a>
+        </div>   
+        
+        
+    </div>
+        {% endblock %}
 <div class="item-show">
     <div>
 
-    <h1>Cachorro index</h1>
+    <h1>Cachorro índice</h1>
 
     <table class="table">
         <thead>

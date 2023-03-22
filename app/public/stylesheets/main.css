@@ -68,6 +68,7 @@ main {
 }
 
 .slot-vazio-a {
+  width: 90%;
   padding: 5px 10px;
   text-decoration: none;
   color:antiquewhite;

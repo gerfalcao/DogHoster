@@ -28,8 +28,8 @@
     <div class="lista-hospedagens">
     
         {% for hospedagem in hospedagensAtivas %}
-            <div class="slot">{{ hospedagem.getCachorro() }}
-                            <br>Entrada: {{ hospedagem.getDataInicio()|date('Y-m-d') }}
+            <div class="slot"><b>{{ hospedagem.getCachorro() }}</b>
+                            <br><b>Entrada:</b> {{ hospedagem.getDataInicio()|date('Y-m-d') }}
                                 <div>
                                 <a href="{{ path('app_hospedagem_show', {'id': hospedagem.id}) }}">Mostrar</a>
                                 </div>
