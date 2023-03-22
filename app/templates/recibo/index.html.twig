@@ -9,19 +9,17 @@
 
 <p>Recibo da hospedagem ID {{ recibo.hospedagem.id }}:</p>
 
-<p>Cachorro/Dono: {{ recibo.getCachorroDono() }}</p>
-<p>Entrada {{ recibo.hospedagem.getDataInicio()|date('Y-m-d H:i:s') }}</p>
-<p>Saída: {{ recibo.hospedagem.getDataFim()|date('Y-m-d H:i:s') }}</p>
-<p>Tempo Total: {{ recibo.getIntervaloTempo() }}</p>
-<p>Serviços Adicionais: </p>
+<p><b>Cachorro/Dono:</b> {{ recibo.getCachorroDono() }}</p>
+<p><b>Entrada:</b> {{ recibo.hospedagem.getDataInicio()|date('Y-m-d H:i:s') }}</p>
+<p><b>Saída:</b> {{ recibo.hospedagem.getDataFim()|date('Y-m-d H:i:s') }}</p>
+<p><b>Tempo Total:</b> {{ recibo.getIntervaloTempo() }}</p>
+<p><b>Serviços Adicionais:</b> </p>
 {% for servico in recibo.hospedagem.getServicos() %}
-<p>{{ servico.getNome() }}</p>
-<p>R$ {{ servico.getPreco() }}</p> 
+<p><b>+ {{ servico.getNome() }}</b>: R$ {{ servico.getPreco() }}</p> 
 {% endfor %}
-<p>Preço Total Diária</p>
-<p>R$ {{ recibo.getPrecoDiaria() }}</p>
-<p>Preço Final</p>
-<p>R$ {{ recibo.getPrecoTotal() }}</p>
+<p><b>Preço Total Diária</b>: R$ {{ recibo.getPrecoDiaria() }}</p>
+<hr>
+<p><b>Preço Final</b>: R$ {{ recibo.getPrecoTotal() }}</p>
 
   <div class="print">
     <button onclick="window.print()">Imprimir / Salvar PDF</button>
