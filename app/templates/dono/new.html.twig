@@ -1,11 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Dono{% endblock %}
+{% block title %}Novo Dono{% endblock %}
 
 {% block body %}
-    <h1>Create new Dono</h1>
+<div class="item-show">
+    <div>
+    <h1>Cadastrar novo Dono</h1>
 
     {{ include('dono/_form.html.twig') }}
-
-    <a href="{{ path('app_dono_index') }}">back to list</a>
+    <br>
+    <a href="{{ path('app_dono_index') }}">lista de donos</a>
+    </div>
+</div>
 {% endblock %}

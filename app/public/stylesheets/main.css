@@ -60,3 +60,20 @@ main {
   display: flex;
   border-radius: 4px;
 }
+
+.slot-vazio-a {
+  padding: 5px 10px;
+  text-decoration: none;
+  color:antiquewhite;
+  /* border-radius: 3px;
+  margin: 10px; */
+  border: 2px solid #FF913C;
+  border-radius: 2px;
+  border-style: dotted;
+  background-color: #FFB371;
+
+}
+
+.slot-vazio p {
+
+}

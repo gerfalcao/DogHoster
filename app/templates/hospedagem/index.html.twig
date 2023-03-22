@@ -18,7 +18,8 @@
         </div>
     </div>
     <div class="h3">
-            <h3>Hospedagens</h3>
+            <h3>Hospedagens - 15 vagas</h3>
+           
     </div>
     <div class="lista-hospedagens">
     
@@ -34,7 +35,11 @@
         {% if hospedagensAtivas|length > 15 %}
         <div class="aviso">Todos os 15 slots de hospedagem estão ocupados. Não é possível agendar novas hospedagens no momento.</div>
         {% else %}
-        <div class="slot-vazio"><a href="{{ path('app_hospedagem_new') }}">Agendar nova Hospedagem</a></div>
+        <div class="slot-vazio">
+            <div class="slot-vazio-a">
+                <a href="{{ path('app_hospedagem_new') }}"><p>Agendar nova Hospedagem</p></a>
+            </div>
+        </div>
             {% for i in 1..(15 - hospedagensAtivas|length - 1) %}
             <div class="slot-vazio"></div>
             {% endfor %}

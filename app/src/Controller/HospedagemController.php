@@ -137,7 +137,7 @@ class HospedagemController extends AbstractController
     #[Route('/{id}/recibo', name: 'app_hospedagem_recibo', methods: ['GET'])]
     public function recibo(Request $request, Hospedagem $hospedagem, HospedagemRepository $hospedagemRepository): Response
     {
-        $recibo = new Recibo();
+            $recibo = new Recibo();
             $recibo->setHospedagem($hospedagem);
             $recibo->setCachorroDono();
             $recibo->setIntervaloTempo();
@@ -145,9 +145,8 @@ class HospedagemController extends AbstractController
             $recibo->setPrecoServicos();
             $recibo->setPrecoTotal();
             $recibo->setDataFechamento();
-            $hospedagem->setRecibo($recibo->getId());
-        if ($hospedagem->getRecibo() === true) {
-            
+        if ($hospedagem->getRecibo() === false) {
+            $hospedagem->setRecibo($recibo);
             $this->em->flush();
          
         }

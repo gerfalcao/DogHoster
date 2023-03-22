@@ -3,6 +3,8 @@
 {% block title %}Edit Dono{% endblock %}
 
 {% block body %}
+<div class="item-show">
+    <div>
     <h1>Edit Dono</h1>
 
     {{ include('dono/_form.html.twig', {'button_label': 'Update'}) }}
@@ -10,4 +12,6 @@
     <a href="{{ path('app_dono_index') }}">back to list</a>
 
     {{ include('dono/_delete_form.html.twig') }}
+    </div>
+</div>
 {% endblock %}

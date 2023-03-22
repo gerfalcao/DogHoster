@@ -9,3 +9,11 @@ body {
   margin: 0;
 }
 
+@media print {
+  .print {
+    display: none;
+  }
+  
+}
+
+
