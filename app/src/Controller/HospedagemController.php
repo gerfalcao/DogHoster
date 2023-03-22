@@ -137,6 +137,12 @@ class HospedagemController extends AbstractController
     #[Route('/{id}/recibo', name: 'app_hospedagem_recibo', methods: ['GET'])]
     public function recibo(Request $request, Hospedagem $hospedagem, HospedagemRepository $hospedagemRepository): Response
     {
+        if($hospedagem->getRecibo()) {
+            $recibo = $hospedagem->getRecibo();
+            return $this->render('recibo/index.html.twig', [
+                'recibo' => $recibo
+            ]);
+        } else {
             $recibo = new Recibo();
             $recibo->setHospedagem($hospedagem);
             $recibo->setCachorroDono();
@@ -145,16 +151,13 @@ class HospedagemController extends AbstractController
             $recibo->setPrecoServicos();
             $recibo->setPrecoTotal();
             $recibo->setDataFechamento();
-        if ($hospedagem->getRecibo() === false) {
             $hospedagem->setRecibo($recibo);
             $this->em->flush();
-         
-        }
-      
-        return $this->render('recibo/index.html.twig', [
-            'recibo' => $recibo
-        ]);
 
+            return $this->render('recibo/index.html.twig', [
+                'recibo' => $recibo
+            ]);   
+        }
     }
 
 
