@@ -123,26 +123,18 @@
 
     </div>    
 
-    <a href="{{ path('app_hospedagem_index') }}">back to list</a>
+    <a href="{{ path('app_hospedagem_index') }}">voltar para lista de hospedagens</a>
 
-    <a href="{{ path('app_hospedagem_edit', {'id': hospedagem.id}) }}">edit</a>
+    <a href="{{ path('app_hospedagem_edit', {'id': hospedagem.id}) }}">editar hospedagem</a>
 
     {{ include('hospedagem/_delete_form.html.twig') }}
- </div>     <h1>Cadastrar Cachorro</h1>
+ </div>     
+ 
 
-        {{ include('cachorro/_form.html.twig') }}
-
-        <a href="{{ path('app_cachorro_index') }}">voltar para lista de cachorros</a>
 </div>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-    {# <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-  <script>
-        // In your Javascript (external .js resource or <script> tag)
-     $(document).ready(function() {
-        $('.select2').select2();
-        });     
-    </script> #}
+
  <script>
     document.getElementById('add-servico-btn').addEventListener('click', function() {
         let formDiv = document.getElementById('add-servico-form');

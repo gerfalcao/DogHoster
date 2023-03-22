@@ -6,18 +6,20 @@
 
 <table>
   <tr>
+    
     <td>
-    Nº Recibo
+    <b>Nº Recibo</b>
     </td>
     <td>
-    Cachorro / Dono
+    <b>Cachorro / Dono</b>
     </td>
     <td>
-    Preço Total
+    <b>Preço Total</b>
     </td>
     <td>
-    Data de Fechamento
+    <b>Data de Fechamento </b>
     </td>
+   
   </tr>
   {% for recibo in recibos %}
   <tr>
@@ -37,6 +39,11 @@
     <td>
     {{ recibo.getDataFechamento()|date('Y-m-d H:i:s') }}
     </td>
+
+    <td>
+      <button type="button" onclick="window.location.href='{{ path('app_hospedagem_recibo', {'id': recibo.id}) }}'">Ver Recibo</button>
+    </td>
+
   </tr>
   {% endfor %}
 </table>

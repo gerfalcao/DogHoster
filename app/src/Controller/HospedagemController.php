@@ -69,9 +69,7 @@ class HospedagemController extends AbstractController
         $formServico->handleRequest($request);
         if ($formServico->isSubmitted() && $formServico->isValid()) {
             $servicosRepository->save($servico, true);
-
-            
-
+        
             return $this->redirectToRoute('app_hospedagem_show', ['id' => $hospedagem->getId()], Response::HTTP_SEE_OTHER);
         }
         // return $this->renderForm('hospedagem/new.html.twig', [
@@ -140,15 +138,20 @@ class HospedagemController extends AbstractController
     public function recibo(Request $request, Hospedagem $hospedagem, HospedagemRepository $hospedagemRepository): Response
     {
         $recibo = new Recibo();
-        $recibo->setHospedagem($hospedagem);
-        $recibo->setCachorroDono();
-        $recibo->setIntervaloTempo();
-        $recibo->setPrecoDiaria();
-        $recibo->setPrecoServicos();
-        $recibo->setPrecoTotal();
-        $recibo->setDataFechamento();
-        
-        $this->em->flush();
+            $recibo->setHospedagem($hospedagem);
+            $recibo->setCachorroDono();
+            $recibo->setIntervaloTempo();
+            $recibo->setPrecoDiaria();
+            $recibo->setPrecoServicos();
+            $recibo->setPrecoTotal();
+            $recibo->setDataFechamento();
+            $hospedagem->setRecibo($recibo->getId());
+        if ($hospedagem->getRecibo() === true) {
+            
+            $this->em->flush();
+         
+        }
+      
         return $this->render('recibo/index.html.twig', [
             'recibo' => $recibo
         ]);

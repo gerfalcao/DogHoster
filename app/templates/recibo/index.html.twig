@@ -3,7 +3,8 @@
 {% block title %}Recibo {{ recibo.id }}{% endblock %}
 
 {% block body %}
-
+<div class="item-show">
+<div class="recibo">
 <h1>Recibo hospedagem {{ recibo.hospedagem.id }} </h1>
 
 <p>Recibo da hospedagem ID {{ recibo.hospedagem.id }}:</p>
@@ -22,6 +23,7 @@
 <p>Preço Final</p>
 <p>R$ {{ recibo.getPrecoTotal() }}</p>
 
-
+</div>
+</div>
 
 {% endblock %}

@@ -3,6 +3,7 @@
 @import './main.css';
 @import './hospedagem.css';
 @import './outros.css';
+@import './recibo.css';
 
 body {
   margin: 0;
