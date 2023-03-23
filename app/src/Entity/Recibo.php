@@ -18,12 +18,6 @@ class Recibo
     #[ORM\Column]
     private ?int $id = null;
 
-     #[ORM\Column(length: 255)]
-    private ?string $cachorro_dono = null;
-
-    // #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
-    // private ?\DateInterval $tempo_total = null;
-
     #[ORM\OneToOne(mappedBy: 'recibo', cascade: ['persist', 'remove'])]
     private ?Hospedagem $hospedagem = null;
 
@@ -48,20 +42,6 @@ class Recibo
     }
  
 
-    public function getCachorroDono(): ?string
-    {
-        return $this->cachorro_dono;
-    }
-
-    public function setCachorroDono(): self
-    {
-        $cachorro = $this->hospedagem->getCachorro();
-        $dono = $cachorro->getDono();
-        $this->cachorro_dono = $cachorro . '/' . $dono;
-     
-        return $this;
-    }
-
     public function getIntervaloTempo ()
     {
         return $this->tempo_total_;
@@ -70,7 +50,7 @@ class Recibo
     public function setIntervaloTempo ()
     {
 
-        $this->tempo_total_ = $this->hospedagem->getDuration()->format('%a dias, %h horas, %i minutos');
+        $this->tempo_total_ = $this->hospedagem->getPeriodo()->format('%a dias, %h horas, %i minutos');
         return $this;
     }
 
@@ -115,7 +95,7 @@ class Recibo
 
     public function setPrecoDiaria()
     {
-        $this->preco_diaria = $this->hospedagem->calcularTotalDiarias();
+        $this->preco_diaria = $this->hospedagem->calcularPrecoEstadia();
 
         return $this;
     }
@@ -127,7 +107,7 @@ class Recibo
 
     public function setPrecoTotal()
     {
-        $this->preco_total = $this->hospedagem->calcularPreco();
+        $this->preco_total = $this->hospedagem->calcularPrecoTotal();
 
         return $this;
     }

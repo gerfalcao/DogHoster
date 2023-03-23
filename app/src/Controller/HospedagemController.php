@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class HospedagemController extends AbstractController
 {
     private $em;
-    
+
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
@@ -37,7 +37,7 @@ class HospedagemController extends AbstractController
 
         $hospedagem = new Hospedagem();
         $form = $this->createForm(HospedagemType::class, $hospedagem);
-        $hospedagem->setDataInicio(New DateTime());
+        $hospedagem->setDataInicio(new DateTime());
         // $hospedagem->setEstado('em aberto');
         $form->handleRequest($request);
 
@@ -89,7 +89,7 @@ class HospedagemController extends AbstractController
         $formServico->handleRequest($request);
         if ($formServico->isSubmitted() && $formServico->isValid()) {
             $servicosRepository->save($servico, true);
-        
+
             return $this->redirectToRoute('app_hospedagem_show', ['id' => $hospedagem->getId()], Response::HTTP_SEE_OTHER);
         }
 
@@ -99,7 +99,7 @@ class HospedagemController extends AbstractController
         $formOcorrencia->handleRequest($request);
         if ($formOcorrencia->isSubmitted() && $formOcorrencia->isValid()) {
             $ocorrenciasRepository->save($ocorrencia, true);
-        
+
             return $this->redirectToRoute('app_hospedagem_show', ['id' => $hospedagem->getId()], Response::HTTP_SEE_OTHER);
         }
 
@@ -117,9 +117,9 @@ class HospedagemController extends AbstractController
         //     $servicosRepository->remove($servico, true);
         // }
 
-        $valor_diarias = $hospedagem->calcularTotalDiarias();
+        $valor_diarias = $hospedagem->calcularPrecoEstadia();
         $valor_servico = $hospedagem->calcularTotalServicos();
-        $valor_total = $hospedagem->calcularPreco();
+        $valor_total = $hospedagem->calcularPrecoTotal();
         return $this->render('hospedagem/show.html.twig', [
             'hospedagem' => $hospedagem,
             'valor_diarias' => $valor_diarias,
@@ -153,34 +153,16 @@ class HospedagemController extends AbstractController
     #[Route('/{id}/recibo', name: 'app_hospedagem_recibo', methods: ['GET'])]
     public function recibo(Request $request, Hospedagem $hospedagem, HospedagemRepository $hospedagemRepository): Response
     {
-        if($hospedagem->getRecibo()) {
-            $recibo = $hospedagem->getRecibo();
-            return $this->render('recibo/index.html.twig', [
-                'recibo' => $recibo
-            ]);
-        } else {
-            $recibo = new Recibo();
-            $recibo->setHospedagem($hospedagem);
-            $recibo->setCachorroDono();
-            $recibo->setIntervaloTempo();
-            $recibo->setPrecoDiaria();
-            $recibo->setPrecoServicos();
-            $recibo->setPrecoTotal();
-            $recibo->setDataFechamento();
-            $hospedagem->setRecibo($recibo);
-            $this->em->flush();
-
-            return $this->render('recibo/index.html.twig', [
-                'recibo' => $recibo
-            ]);   
-        }
+        $recibo = $hospedagem->getRecibo();
+        return $this->render('recibo/index.html.twig', [
+            'recibo' => $recibo
+        ]);
     }
-
 
     #[Route('/{id}', name: 'app_hospedagem_delete', methods: ['POST'])]
     public function delete(Request $request, Hospedagem $hospedagem, HospedagemRepository $hospedagemRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$hospedagem->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $hospedagem->getId(), $request->request->get('_token'))) {
             $hospedagemRepository->remove($hospedagem, true);
         }
 
@@ -194,19 +176,19 @@ class HospedagemController extends AbstractController
         $this->em->flush();
 
         $recibo = new Recibo();
-            $recibo->setHospedagem($hospedagem);
-            $recibo->setCachorroDono();
-            $recibo->setIntervaloTempo();
-            $recibo->setPrecoDiaria();
-            $recibo->setPrecoServicos();
-            $recibo->setPrecoTotal();
-            $recibo->setDataFechamento();
-            $hospedagem->setRecibo($recibo);
-            $this->em->flush();
+        $recibo->setHospedagem($hospedagem);
+        // $recibo->setCachorroDono();
+        $recibo->setIntervaloTempo();
+        $recibo->setPrecoDiaria();
+        $recibo->setPrecoServicos();
+        $recibo->setPrecoTotal();
+        $recibo->setDataFechamento();
+        $hospedagem->setRecibo($recibo);
+        $this->em->flush();
 
-            return $this->render('recibo/index.html.twig', [
-                'recibo' => $recibo
-            ]);
+        return $this->render('recibo/index.html.twig', [
+            'recibo' => $recibo
+        ]);
         // return $this->redirectToRoute('app_hospedagem_show', ['id' => $hospedagem->getId()], Response::HTTP_SEE_OTHER);
     }
 
@@ -219,7 +201,7 @@ class HospedagemController extends AbstractController
     //     return $this->redirectToRoute('app_hospedagem_show', ['id' => $hospedagem->getId()], Response::HTTP_SEE_OTHER);
     // }
 
-    
-   
- 
+
+
+
 }

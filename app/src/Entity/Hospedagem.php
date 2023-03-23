@@ -42,14 +42,7 @@ class Hospedagem
     #[ORM\OneToMany(mappedBy: 'hospedagem', targetEntity: Ocorrencias::class, orphanRemoval: true)]
     private Collection $ocorrencias;
 
-    // // Validação de "Estado" da hospedagem, aberta ou fechada. 
-   
-    // #[ORM\Column(type: "string", length: 20)]
-    // #[Assert\NotBlank]
-    // #[Assert\Choice(["em aberto", "fechado"])]
-    // private $estado = 'em aberto';
-
-    public function getEstado(): string
+     public function getEstado(): string
     {
         if(is_null($this->getDataFim())){
             return HospedagemConstants::ESTADO_ABERTO;
@@ -58,25 +51,6 @@ class Hospedagem
         }
         // return $this->estado;
     }
-
-    // public function setEstado(string $estado): self
-    // {
-    //     $this->estado = $estado;
-
-    //     return $this;
-    // }
-
-    
-    
-
-    // #[Assert\Callback]
-    // public function validate(ExecutionContextInterface $context): void
-    // {
-    //     if ($this->getEstado() === 'fechado') {
-    //         $context->buildViolation('Não é possível alterar uma hospedagem fechada.')
-    //             ->addViolation();
-    //     }
-    // }
 
 
     public function __construct()
@@ -145,7 +119,7 @@ class Hospedagem
         return $this;
     }
 
-    public function getDuration(): \DateInterval
+    public function getPeriodo(): \DateInterval
     {   
         if (is_null($this->getDataFim())) {
 
@@ -157,14 +131,13 @@ class Hospedagem
        
     }
 
-    public function calcularTotalDiarias() {
-        $total_minutos = ($this->getDuration()->days * 24 * 60) + ($this->getDuration()->h *60) + $this->getDuration()->i;
-        $num_diarias_completas = floor($total_minutos / (24 * 60));
-        $num_diarias_parciais = ceil(($total_minutos % (24 * 60)) / 60);
- 
-        $valor_diaria = 30;
-        $valor_total_diarias = ($num_diarias_completas + ($num_diarias_parciais > 0 ? 1 : 0)) * $valor_diaria;
-        return $valor_total_diarias;
+    public function calcTotalPeriodos() {
+        $horas = $this->getPeriodo()->h;
+        $minutos = $this->getPeriodo()->i;
+
+        $periodo = $horas / HospedagemConstants::HORAS_POR_PERIODO + (ceil($minutos% HospedagemConstants::HORAS_POR_PERIODO) > 0 ? 1 : 0);
+        return $periodo;
+
     }
 
     public function calcularTotalServicos() {
@@ -175,11 +148,15 @@ class Hospedagem
         return $valor_total_servicos;
     }
 
+    public function calcularPrecoEstadia() {
 
-    public function calcularPreco(){
-        $valor_total = $this->calcularTotalDiarias() + $this->calcularTotalServicos();
-        return $valor_total;
-     }
+        $precoEstadia = $this->calcTotalPeriodos() * HospedagemConstants::VALOR_PERIODO;
+        return $precoEstadia;
+    }
+
+    public function calcularPrecoTotal() {
+        return $this->calcularTotalServicos() + $this->calcularPrecoEstadia();
+    }
 
     /**
      * @return Collection<int, Servicos>

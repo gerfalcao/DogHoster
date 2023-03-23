@@ -71,8 +71,8 @@
                 {% endif %}
             </tr> #}
             <tr>
-                <th>Duração Total</th>
-                <td>{{ hospedagem.getDuration().format('%h horas, %i minutos') }}</td>
+                <th>Duração estimada</th>
+                <td>{{ hospedagem.getPeriodo().format('%h horas, %i minutos') }}</td>
             </tr>
             <tr>
                 <th>Preço Estadia</th>
@@ -119,15 +119,15 @@
         <div id="editDiv" {% if hospedagem.getEstado() == 'Fechado' %}style="display: none"{% endif %}>
         {{ form_start(form_ocorrencia)}}
             {{ form_row(form_ocorrencia.ocorrencia)}}
+                <p>
                <button class="btn">{{ button_label|default('Registrar ocorrência') }}</button>
         {{ form_end(form_ocorrencia)}}
         </div>
 
     </div>    
 
-    <a href="{{ path('app_hospedagem_index') }}">voltar para lista de hospedagens</a>
 
-        <p></p>
+        <p><br><br><br></p>
     {{ include('hospedagem/_delete_form.html.twig') }}
  </div>     
  

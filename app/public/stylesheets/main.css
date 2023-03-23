@@ -92,6 +92,8 @@ main {
 
 }
 
-.slot-vazio p {
-
+@media print {
+  main-menu {
+    display: none;
+  }
 }
