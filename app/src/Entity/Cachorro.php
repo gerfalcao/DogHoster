@@ -31,6 +31,9 @@ class Cachorro
     #[ORM\OneToMany(mappedBy: 'cachorro', targetEntity: Hospedagem::class)]
     private Collection $hospedagems;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $photo = null;
+
     // #[ORM\OneToMany(mappedBy: 'Cachorro', targetEntity: Hospedagem::class)]
     // private Collection $hospedagems;
 
@@ -154,6 +157,18 @@ class Cachorro
                 $hospedagem->setCachorro(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
 
         return $this;
     }

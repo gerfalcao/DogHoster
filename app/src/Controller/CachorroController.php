@@ -12,6 +12,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
+
 
 #[Route('/cachorro')]
 class CachorroController extends AbstractController
@@ -25,13 +30,37 @@ class CachorroController extends AbstractController
     }
 
     #[Route('/new', name: 'app_cachorro_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CachorroRepository $cachorroRepository): Response
+    public function new(Request $request, CachorroRepository $cachorroRepository, SluggerInterface $slugger): Response
     {
         $cachorro = new Cachorro();
         $form = $this->createForm(CachorroType::class, $cachorro);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+           /** @var UploadedFile $photo  */
+           $photo = $form->get('photo')->getData();
+               if ($photo) {
+
+                $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
+
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$photo->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $photo->move($this->getParameter('file_directory'), $newFilename);
+                    
+                } catch (FileException $e) {
+                    throw new \Exception('Opa, tem algum problema com seu arquivo');
+                }
+
+                // updates the 'brochureFilename' property to store the PDF file name
+                // instead of its contents
+                $cachorro->setPhoto($newFilename);
+            }
+
+            // ... persist the $product variable or any other work
+           
             $cachorroRepository->save($cachorro, true);
 
             return $this->redirectToRoute('app_cachorro_index', [], Response::HTTP_SEE_OTHER);

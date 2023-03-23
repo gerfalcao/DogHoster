@@ -5,23 +5,26 @@
     <br>
     {{ form_row(form.email)}}
     <br>
-    <p>Adicione um cachorro</p>
+    {# <p>Adicione um cachorro</p>
 
     <ul class="cachorro"
         data-index="{{ form.cachorro|length > 0 ? form.cachorro|last.vars.name + 1 : 0 }}"
         data-prototype="{{ form_widget(form.cachorro.vars.prototype)|e('html_attr') }}"> 
         
        <li> {% for cachorro in form.cachorro %}
+       <div class="cadastro-cachorro">
            {{ form_row(cachorro.nome) }}
             {{ form_row(cachorro.porte) }}
             {{ form_row(cachorro.agressividade) }}
+            {{ form_row(cachorro.photo)}}
+        </div>
         {% endfor %}</li>
 
         
 
         </ul>
     <button type="button" class="add_item_link" data-collection-holder-class="cachorro">Quer adicionar outro cachorro?</button>
-   
+    #}
 
     <button class="btn">{{ button_label|default('Salvar') }}</button>
 {{ form_end(form) }}

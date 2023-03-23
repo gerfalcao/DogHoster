@@ -17,12 +17,12 @@ class DonoType extends AbstractType
             ->add('email')
         ;
 
-        $builder
-        ->add('cachorro', CollectionType::class, [
-            'entry_type' => CachorroType::class,
-            'entry_options' => ['label' => false],
-            'allow_add' => true,
-        ]);
+        // $builder
+        // ->add('cachorro', CollectionType::class, [
+        //     'entry_type' => CachorroType::class,
+        //     'entry_options' => ['label' => false],
+        //     'allow_add' => true,
+        // ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

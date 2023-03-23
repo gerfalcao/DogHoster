@@ -25,6 +25,54 @@
         </tbody>
     </table>
 
+    <h2>Cachorros cadastrados</h2>
+    <table>
+    {% for cachorro in cachorros %}
+    <tr><td>
+    <div class="foto-dog">
+               {% if cachorro.photo != null %}
+                  <div class="foto-dog">
+                  <img class="foto-dog" src="{{asset ('uploads/files/' ~ cachorro.photo)}}" >
+                  </div>
+               {% endif %}
+            </div>
+    </td></tr>
+    <tr>
+        <th>Nome</th>
+        <td>{{ cachorro.nome }}</td>
+    </tr>
+    <tr>
+        <th>Porte</th>
+        <td>{{ cachorro.porte }}</td>
+    </tr>
+    <tr>
+            <th>Hospedagens anteriores</th>
+           <td> <table>
+             {% for hospedagem in cachorro.hospedagems %}
+                <tr>
+                    <th>Data de entrada</th>
+                    <td>{{ hospedagem.getDataInicio()|date('d/m/Y') }}</td>
+                </tr>
+                <tr>
+                    <th>Serviços</th>
+                    {% for servico in hospedagem.getServicos() %}
+                    
+                    <td>{{ servico.getNome() }}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    <th>Ocorrências</th>
+                    {% for ocorrencia in hospedagem.getOcorrencias() %}
+                    
+                    <td>{{ ocorrencia.getOcorrencia() }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </table>
+            </td>
+    </tr>   
+    {% endfor %}
+    </table>    
     <a href="{{ path('app_dono_index') }}">back to list</a>
 
     <a href="{{ path('app_dono_edit', {'id': dono.id}) }}">editar</a>
