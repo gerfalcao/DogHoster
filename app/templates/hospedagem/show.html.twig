@@ -12,10 +12,8 @@
         <p>Estado da Hospedagem: <b style="color:#FF0000"> {{ hospedagem.getEstado() }}</b> </p>
         {% if hospedagem.getEstado() == 'Em aberto' %}
         <a href="{{ path('fechar_hospedagem', {'id': hospedagem.id}) }}" class="btn btn-danger">Fechar Hospedagem</a>
-    {% else %}
-        <a href="{{ path('abrir_hospedagem', {'id': hospedagem.id}) }}" class="btn btn-primary">Abrir Hospedagem</a>
-    {% endif %}<p></p>
-        <div id="editDiv" {% if hospedagem.estado == 'em aberto' %}style="display: none"{% endif %}>
+       {% endif %}<p></p>
+        <div id="editDiv" {% if hospedagem.getEstado() == 'Em aberto' %}style="display: none"{% endif %}>
             {% if hospedagem.getDataFim() != true %}
             <p>Defina uma data de fechamento da hospedagem</p>
             {% else %}
@@ -42,10 +40,10 @@
             </tr>
 
             <tr>
-                <th>Data_inicio</th>
+                <th>Data de entrada</th>
                 <td>{{ hospedagem.dataInicio ? hospedagem.dataInicio|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
-            <tr>
+            {# <tr>
                 <th>Data_fim</th>
                 {% if (hospedagem.dataFim != true) %}
                 <td> 
@@ -71,10 +69,10 @@
                     </div>
                 </td>
                 {% endif %}
-            </tr>
+            </tr> #}
             <tr>
                 <th>Duração Total</th>
-                <td>{{ hospedagem.getDuration().format('%a dias, %h horas, %i minutos') }}</td>
+                <td>{{ hospedagem.getDuration().format('%h horas, %i minutos') }}</td>
             </tr>
             <tr>
                 <th>Preço Estadia</th>
@@ -99,7 +97,7 @@
     </table>
     <hr>
     <div><b>Preço Parcial:</b> R$ {{ valor_total }},00 reais </div>
-   <div id="editDiv" {% if hospedagem.estado == 'fechado' %}style="display: none"{% endif %}> 
+   <div id="editDiv" {% if hospedagem.getEstado() == 'Fechado' %}style="display: none"{% endif %}> 
         <p>Clique para adicionar serviços:</p>
     <button type="button" id="add-servico-btn">Adicionar Serviços</button>
         <div id="add-servico-form" style="display:none;">
@@ -118,7 +116,7 @@
         {% for ocorrencia in hospedagem.getOcorrencias() %}
         <p> {{ ocorrencia.getOcorrencia() }} </p>
         {% endfor %}
-        <div id="editDiv" {% if hospedagem.estado == 'fechado' %}style="display: none"{% endif %}>
+        <div id="editDiv" {% if hospedagem.getEstado() == 'Fechado' %}style="display: none"{% endif %}>
         {{ form_start(form_ocorrencia)}}
             {{ form_row(form_ocorrencia.ocorrencia)}}
                <button class="btn">{{ button_label|default('Registrar ocorrência') }}</button>
