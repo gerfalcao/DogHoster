@@ -39,6 +39,22 @@ class ReciboRepository extends ServiceEntityRepository
         }
     }
 
+    public function listaRecentes(): array
+    {
+        return $this->createQueryBuilder('r')->orderBy('r.data_fechamento', 'DESC')->getQuery()->getResult();    // #[Route('/', name: 'app_hospedagem_index', methods: ['GET'])]
+        // public function index(HospedagemRepository $hospedagemRepository): Response
+        // {
+        //     // $hospedagems = $hospedagemRepository->findAll();
+        //     $hospedagensAtivas = $hospedagemRepository->findBy(['estado' => 'em aberto']);
+    
+        //     return $this->render('hospedagem/index.html.twig', [
+        //         // 'hospedagems' => $hospedagems,
+        //         'hospedagensAtivas' => $hospedagensAtivas,
+    
+        //     ]);
+        // }
+    }
+
 //    /**
 //     * @return Recibo[] Returns an array of Recibo objects
 //     */

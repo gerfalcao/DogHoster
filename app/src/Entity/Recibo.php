@@ -25,7 +25,7 @@ class Recibo
     private ?float $preco_servicos = null;
 
     #[ORM\Column]
-    private ?float $preco_diaria = null;
+    private ?float $preco_Estadia = null;
 
     #[ORM\Column]
     private ?float $preco_total = null;
@@ -88,14 +88,14 @@ class Recibo
         return $this;
     }
 
-    public function getPrecoDiaria(): ?float
+    public function getPrecoEstadia(): ?float
     {
-        return $this->preco_diaria;
+        return $this->preco_Estadia;
     }
 
-    public function setPrecoDiaria()
+    public function setPrecoEstadia()
     {
-        $this->preco_diaria = $this->hospedagem->calcularPrecoEstadia();
+        $this->preco_Estadia = $this->hospedagem->calcularPrecoEstadia();
 
         return $this;
     }
