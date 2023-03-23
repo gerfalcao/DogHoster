@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Cachorro;
 use App\Entity\Dono;
 use App\Form\DonoType;
+use App\Repository\CachorroRepository;
 use App\Repository\DonoRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,14 +24,20 @@ class DonoController extends AbstractController
     }
 
     #[Route('/new', name: 'app_dono_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, DonoRepository $donoRepository): Response
+    public function new(Request $request, DonoRepository $donoRepository, CachorroRepository $cachorroRepository): Response
     {
         $dono = new Dono();
+
+        $cachorro = new Cachorro();
+        $cachorro->setNome('Cachorro 1');
+        $cachorro->setDono($dono);
+        $dono->getCachorro()->add($cachorro);
         $form = $this->createForm(DonoType::class, $dono);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $donoRepository->save($dono, true);
+            $cachorroRepository->save($cachorro, true);
 
             return $this->redirectToRoute('app_dono_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -49,14 +57,21 @@ class DonoController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_dono_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Dono $dono, DonoRepository $donoRepository): Response
+    public function edit(Request $request, Dono $dono, DonoRepository $donoRepository, CachorroRepository $cachorroRepository): Response
     {
+        $cachorro = new Cachorro();
+        $dono->getCachorro()->add($cachorro);
+
+        
+        $cachorro->setNome('Cachorro');
+        $cachorro->setDono($dono);
         $form = $this->createForm(DonoType::class, $dono);
         $form->handleRequest($request);
+     
 
         if ($form->isSubmitted() && $form->isValid()) {
             $donoRepository->save($dono, true);
-
+            $cachorroRepository->save($cachorro, true);
             return $this->redirectToRoute('app_dono_index', [], Response::HTTP_SEE_OTHER);
         }
 

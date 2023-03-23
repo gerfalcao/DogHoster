@@ -21,7 +21,7 @@ class Dono
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\OneToMany(mappedBy: 'dono', targetEntity: Cachorro::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'dono', targetEntity: Cachorro::class, orphanRemoval: true, cascade:['persist'])]
     private Collection $Cachorro;
 
     public function __construct()

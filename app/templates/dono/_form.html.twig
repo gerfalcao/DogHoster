@@ -5,6 +5,53 @@
     <br>
     {{ form_row(form.email)}}
     <br>
+    <p>Adicione um cachorro</p>
+
+    <ul class="cachorro"
+        data-index="{{ form.cachorro|length > 0 ? form.cachorro|last.vars.name + 1 : 0 }}"
+        data-prototype="{{ form_widget(form.cachorro.vars.prototype)|e('html_attr') }}"> 
+        
+       <li> {% for cachorro in form.cachorro %}
+           {{ form_row(cachorro.nome) }}
+            {{ form_row(cachorro.porte) }}
+            {{ form_row(cachorro.agressividade) }}
+        {% endfor %}</li>
+
+        
+
+        </ul>
+    <button type="button" class="add_item_link" data-collection-holder-class="cachorro">Quer adicionar outro cachorro?</button>
+   
+
     <button class="btn">{{ button_label|default('Salvar') }}</button>
 {{ form_end(form) }}
 
+
+<script>
+
+
+  const addFormToCollection = (e) => {
+  const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+
+  const item = document.createElement('li');
+
+  item.innerHTML = collectionHolder
+    .dataset
+    .prototype
+    .replace(
+      /__name__/g,
+      collectionHolder.dataset.index
+    );
+
+  collectionHolder.appendChild(item);
+
+  collectionHolder.dataset.index++;
+};
+
+document
+  .querySelectorAll('.add_item_link')
+  .forEach(btn => {
+      btn.addEventListener("click", addFormToCollection)
+  });
+
+</script>

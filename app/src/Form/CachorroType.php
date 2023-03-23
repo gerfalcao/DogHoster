@@ -25,13 +25,20 @@ class CachorroType extends AbstractType
                 'attr' => [
                     'min' => 0,
                     'max' => 100
-                ]])
-            ->add('dono', EntityType::class, [
-                'class' => Dono::class,
-                'attr' => ['class' => 'select2']
-            ])
+                ]]);
+            // ->add('dono', EntityType::class, [
+            //     'class' => Dono::class,
+            //     'attr' => ['class' => 'select2']
+            // ])
+        // $builder 
+        //         ->add('dono', EntityType::class, [
+        //         'class' => Dono::class,
+             
+        //         'attr' => ['class' => 'select2']
+        //     ]);
                            
          ;
+      
     }
 
    
