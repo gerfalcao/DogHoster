@@ -10,7 +10,7 @@
     
     <div>
         <p>Estado da Hospedagem: <b style="color:#FF0000"> {{ hospedagem.getEstado() }}</b> </p>
-        {% if hospedagem.getEstado() == 'em aberto' %}
+        {% if hospedagem.getEstado() == 'Em aberto' %}
         <a href="{{ path('fechar_hospedagem', {'id': hospedagem.id}) }}" class="btn btn-danger">Fechar Hospedagem</a>
     {% else %}
         <a href="{{ path('abrir_hospedagem', {'id': hospedagem.id}) }}" class="btn btn-primary">Abrir Hospedagem</a>
@@ -129,8 +129,7 @@
 
     <a href="{{ path('app_hospedagem_index') }}">voltar para lista de hospedagens</a>
 
-    <a href="{{ path('app_hospedagem_edit', {'id': hospedagem.id}) }}">editar hospedagem</a>
-    <p></p>
+        <p></p>
     {{ include('hospedagem/_delete_form.html.twig') }}
  </div>     
  

@@ -15,18 +15,18 @@ class HospedagemType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('data_inicio', DateTimeType::class, [
-                'widget' => 'single_text',
-            ])
-            ->add('data_fim', DateTimeType::class, [
-                'required' => false,
-                'widget' => 'single_text',
-                'label' => 'Data Fim',
-                'attr' => [
-                    'class' => 'form-control'
-                ],
-                'by_reference' => true
-            ])
+            // ->add('data_inicio', DateTimeType::class, [
+            //     'widget' => 'single_text',
+            // ])
+            // ->add('data_fim', DateTimeType::class, [
+            //     'required' => false,
+            //     'widget' => 'single_text',
+            //     'label' => 'Data Fim',
+            //     'attr' => [
+            //         'class' => 'form-control'
+            //     ],
+            //     'by_reference' => true
+            // ])
             
             ->add('Cachorro', EntityType::class, [
                 'class' => Cachorro::class,

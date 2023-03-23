@@ -13,6 +13,7 @@ use App\Repository\HospedagemRepository;
 use App\Repository\OcorrenciasRepository;
 use App\Repository\ReciboRepository;
 use App\Repository\ServicosRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,23 +30,15 @@ class HospedagemController extends AbstractController
         $this->em = $em;
     }
 
-    #[Route('/', name: 'app_hospedagem_index', methods: ['GET'])]
-    public function index(HospedagemRepository $hospedagemRepository): Response
+    #[Route('/', name: 'app_hospedagem_index', methods: ['GET', 'POST'])]
+    public function index(HospedagemRepository $hospedagemRepository, Request $request): Response
     {
-        $hospedagensAtivas = $hospedagemRepository->findBy(['estado' => 'em aberto']);
+        $hospedagensAtivas = $hospedagemRepository->findHospedagemsEmAberto();
 
-        return $this->render('hospedagem/index.html.twig', [
-            'hospedagems' => $hospedagemRepository->findAll(),
-            'hospedagensAtivas' => $hospedagensAtivas
-        ]);
-    }
-
-    #[Route('/new', name: 'app_hospedagem_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, HospedagemRepository $hospedagemRepository): Response
-    {
         $hospedagem = new Hospedagem();
         $form = $this->createForm(HospedagemType::class, $hospedagem);
-        $hospedagem->setEstado('em aberto');
+        $hospedagem->setDataInicio(New DateTime());
+        // $hospedagem->setEstado('em aberto');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -54,11 +47,38 @@ class HospedagemController extends AbstractController
             return $this->redirectToRoute('app_hospedagem_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('hospedagem/new.html.twig', [
-            'hospedagem' => $hospedagem,
+        // return $this->renderForm('hospedagem/new.html.twig', [
+        //     'hospedagem' => $hospedagem,
+        //     'form' => $form,
+        // ]);
+
+        return $this->render('hospedagem/index.html.twig', [
+            'hospedagems' => $hospedagemRepository->findAll(),
+            'hospedagensAtivas' => $hospedagensAtivas,
             'form' => $form,
         ]);
     }
+
+    // #[Route('/new', name: 'app_hospedagem_new', methods: ['GET', 'POST'])]
+    // public function new(Request $request, HospedagemRepository $hospedagemRepository): Response
+    // {
+    //     $hospedagem = new Hospedagem();
+    //     $form = $this->createForm(HospedagemType::class, $hospedagem);
+    //     $hospedagem->setDataInicio(New DateTime());
+    //     $hospedagem->setEstado('em aberto');
+    //     $form->handleRequest($request);
+
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $hospedagemRepository->save($hospedagem, true);
+
+    //         return $this->redirectToRoute('app_hospedagem_index', [], Response::HTTP_SEE_OTHER);
+    //     }
+
+    //     return $this->renderForm('hospedagem/new.html.twig', [
+    //         'hospedagem' => $hospedagem,
+    //         'form' => $form,
+    //     ]);
+    // }
 
     #[Route('/{id}', name: 'app_hospedagem_show', methods: ['GET', 'POST'])]
     public function show(Hospedagem $hospedagem, Request $request, ServicosRepository $servicosRepository, OcorrenciasRepository $ocorrenciasRepository): Response
@@ -72,10 +92,6 @@ class HospedagemController extends AbstractController
         
             return $this->redirectToRoute('app_hospedagem_show', ['id' => $hospedagem->getId()], Response::HTTP_SEE_OTHER);
         }
-        // return $this->renderForm('hospedagem/new.html.twig', [
-        //     'hospedagem' => $hospedagem,
-        //     'form' => $form,
-        // ]);
 
         $ocorrencia = new Ocorrencias();
         $formOcorrencia = $this->createForm(OcorrenciaType::class, $ocorrencia);
@@ -172,22 +188,36 @@ class HospedagemController extends AbstractController
     }
 
     #[Route('/{id}/fechar', name: 'fechar_hospedagem')]
-    public function fechar(Hospedagem $hospedagem): Response
+    public function fechar(Request $request, Hospedagem $hospedagem, HospedagemRepository $hospedagemRepository): Response
     {
-        $hospedagem->setEstado('fechado');
+        $hospedagem->setDataFim(new DateTime());
         $this->em->flush();
 
-        return $this->redirectToRoute('app_hospedagem_show', ['id' => $hospedagem->getId()], Response::HTTP_SEE_OTHER);
+        $recibo = new Recibo();
+            $recibo->setHospedagem($hospedagem);
+            $recibo->setCachorroDono();
+            $recibo->setIntervaloTempo();
+            $recibo->setPrecoDiaria();
+            $recibo->setPrecoServicos();
+            $recibo->setPrecoTotal();
+            $recibo->setDataFechamento();
+            $hospedagem->setRecibo($recibo);
+            $this->em->flush();
+
+            return $this->render('recibo/index.html.twig', [
+                'recibo' => $recibo
+            ]);
+        // return $this->redirectToRoute('app_hospedagem_show', ['id' => $hospedagem->getId()], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/abrir', name: 'abrir_hospedagem')]
-    public function abrir(Hospedagem $hospedagem): Response
-    {
-        $hospedagem->setEstado('em aberto');
-        $this->em->flush();
+    // #[Route('/{id}/abrir', name: 'abrir_hospedagem')]
+    // public function abrir(Hospedagem $hospedagem): Response
+    // {
+    //     $hospedagem->setEstado('em aberto');
+    //     $this->em->flush();
 
-        return $this->redirectToRoute('app_hospedagem_show', ['id' => $hospedagem->getId()], Response::HTTP_SEE_OTHER);
-    }
+    //     return $this->redirectToRoute('app_hospedagem_show', ['id' => $hospedagem->getId()], Response::HTTP_SEE_OTHER);
+    // }
 
     
    

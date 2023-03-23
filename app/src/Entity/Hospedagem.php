@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Constants\HospedagemConstants;
 use App\Repository\HospedagemRepository;
 use DateInterval;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -41,24 +42,32 @@ class Hospedagem
     #[ORM\OneToMany(mappedBy: 'hospedagem', targetEntity: Ocorrencias::class, orphanRemoval: true)]
     private Collection $ocorrencias;
 
-    // Validação de "Estado" da hospedagem, aberta ou fechada. 
+    // // Validação de "Estado" da hospedagem, aberta ou fechada. 
    
-    #[ORM\Column(type: "string", length: 20)]
-    #[Assert\NotBlank]
-    #[Assert\Choice(["em aberto", "fechado"])]
-    private $estado = 'em aberto';
+    // #[ORM\Column(type: "string", length: 20)]
+    // #[Assert\NotBlank]
+    // #[Assert\Choice(["em aberto", "fechado"])]
+    // private $estado = 'em aberto';
 
     public function getEstado(): string
     {
-        return $this->estado;
+        if(is_null($this->getDataFim())){
+            return HospedagemConstants::ESTADO_ABERTO;
+        } else {
+            return HospedagemConstants::ESTADO_FECHADO;
+        }
+        // return $this->estado;
     }
 
-    public function setEstado(string $estado): self
-    {
-        $this->estado = $estado;
+    // public function setEstado(string $estado): self
+    // {
+    //     $this->estado = $estado;
 
-        return $this;
-    }
+    //     return $this;
+    // }
+
+    
+    
 
     // #[Assert\Callback]
     // public function validate(ExecutionContextInterface $context): void
@@ -138,15 +147,13 @@ class Hospedagem
 
     public function getDuration(): \DateInterval
     {   
-        if ($this->data_fim == true) {
-            $data_dif = $this->data_fim;
-            $duration = $this->data_inicio->diff($data_dif);
-            return $duration;
-         } else { 
-            $interval = new DateInterval('PT24H');
-            return $interval;
-            
-         };
+        if (is_null($this->getDataFim())) {
+
+            return new DateInterval('PT12H');
+        } else { 
+
+            return $this->getDataInicio()->diff($this->getDataFim());
+        };
        
     }
 

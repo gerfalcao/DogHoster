@@ -38,14 +38,14 @@ main {
 }
 
 .lista-hospedagens {
-  width: 60%;
+  width: 70%;
   margin: 20px auto;
   display: flex;
   flex-wrap: wrap;
 }
 
 .slot {
-  width: 100px;
+  width: 14%;
   height: 100px;
   padding: 20px;
   border: 2px solid #FF913C;
@@ -61,17 +61,28 @@ main {
   background-color: #FF9E7D;
   padding: 20px;
   margin: 2px;
-  width: 100px;
+  width: 14%;
   height: 100px;
   display: flex;
   border-radius: 4px;
 }
 
+.slot-vazio button {
+  border: 2px solid #FF913C;
+  border-radius: 2px;
+  border-style: dotted;
+  background-color: #FFB371;
+}
+
+.slot-vazio button:hover {
+    background-color: #FF913C;
+}
+
+
 .slot-vazio-a {
-  width: 90%;
   padding: 5px 10px;
   text-decoration: none;
-  color:antiquewhite;
+  color:black;
   /* border-radius: 3px;
   margin: 10px; */
   border: 2px solid #FF913C;

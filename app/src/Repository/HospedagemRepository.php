@@ -39,6 +39,11 @@ class HospedagemRepository extends ServiceEntityRepository
         }
     }
 
+    public function findHospedagemsEmAberto(): array 
+    {
+        return $this->createQueryBuilder('h')->andWhere('h.data_fim IS NULL')->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Hospedagem[] Returns an array of Hospedagem objects
 //     */

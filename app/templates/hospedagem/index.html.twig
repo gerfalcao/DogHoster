@@ -4,23 +4,7 @@
 
 {% block body %}
 <main>
-    <div class="main-menu">
-       
-        <div> 
-
-            Passo 1:<a href="/dono/new"> Cadastrar novo Dono</a>
-        </div>
-        <div>
-
-            Passo 2:<a href="/cachorro/new"> Cadastrar novo Cachorro</a>
-        </div>   
-        <div>
-
-            Passo 3:<a href="{{ path('app_hospedagem_new') }}"> Agendar nova Hospedagem</a>
-        </div>   
-        
-        
-    </div>
+    
     <div class="h3">
             <h3>Hospedagens - 15 vagas</h3>
            
@@ -41,7 +25,13 @@
         {% else %}
         <div class="slot-vazio">
             <div class="slot-vazio-a">
-                <a href="{{ path('app_hospedagem_new') }}"><p>Agendar nova Hospedagem</p></a>
+                  <button type="button" id="add-hospedagem-btn">Iniciar nova Hospedagem</button>
+                    <div id="add-hospedagem-form" style="display:none;">
+                    {{ form_start(form) }}
+                        {{ form_widget(form)}}
+                        <button class="btn">{{ button_label|default('Iniciar') }}</button>
+                    {{ form_end(form) }}
+                    </div>
             </div>
         </div>
             {% for i in 1..(15 - hospedagensAtivas|length - 1) %}
@@ -52,5 +42,24 @@
 
 
 </main>
+ <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script>
+        // In your Javascript (external .js resource or <script> tag)
+     $(document).ready(function() {
+        $('.select2').select2();
+        });     
+    </script>
+
+<script>
+ document.getElementById('add-hospedagem-btn').addEventListener('click', function() {
+        let formDiv = document.getElementById('add-hospedagem-form');
+        if (formDiv.style.display === 'none') {
+            formDiv.style.display = 'block';
+        } else {
+            formDiv.style.display = 'none';
+        }
+    });
+</script>
 
 {% endblock %}
