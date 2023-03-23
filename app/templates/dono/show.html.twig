@@ -4,81 +4,89 @@
 
 {% block body %}
 
-<div class="item-show">
+<div class="item-show2">
     <div>
-    <h1>Dono</h1>
+        <h1>Dono</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ dono.id }}</td>
-            </tr>
-            <tr>
-                <th>Nome</th>
-                <td>{{ dono.nome }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ dono.email }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <h2>Cachorros cadastrados</h2>
-    <table>
-    {% for cachorro in cachorros %}
-    <tr><td>
-    <div class="foto-dog">
-               {% if cachorro.photo != null %}
-                  <div class="foto-dog">
-                  <img class="foto-dog" src="{{asset ('uploads/files/' ~ cachorro.photo)}}" >
-                  </div>
-               {% endif %}
-            </div>
-    </td></tr>
-    <tr>
-        <th>Nome</th>
-        <td>{{ cachorro.nome }}</td>
-    </tr>
-    <tr>
-        <th>Porte</th>
-        <td>{{ cachorro.porte }}</td>
-    </tr>
-    <tr>
-            <th>Hospedagens anteriores</th>
-           <td> <table>
-             {% for hospedagem in cachorro.hospedagems %}
+        <table class="table">
+            <tbody>
                 <tr>
-                    <th>Data de entrada</th>
-                    <td>{{ hospedagem.getDataInicio()|date('d/m/Y') }}</td>
+                    <th>Id</th>
+                    <td>{{ dono.id }}</td>
                 </tr>
                 <tr>
-                    <th>Serviços</th>
-                    {% for servico in hospedagem.getServicos() %}
-                    
-                    <td>{{ servico.getNome() }}</td>
-                    {% endfor %}
+                    <th>Nome</th>
+                    <td>{{ dono.nome }}</td>
                 </tr>
                 <tr>
-                    <th>Ocorrências</th>
-                    {% for ocorrencia in hospedagem.getOcorrencias() %}
-                    
-                    <td>{{ ocorrencia.getOcorrencia() }}</td>
-                    {% endfor %}
+                    <th>Email</th>
+                    <td>{{ dono.email }}</td>
                 </tr>
-            {% endfor %}
-            </table>
-            </td>
-    </tr>   
-    {% endfor %}
-    </table>    
-    <a href="{{ path('app_dono_index') }}">back to list</a>
+            </tbody>
+        </table>
+          <div>
+    <a href="{{ path('app_dono_index') }}">voltar para lista de donos</a>
 
-    <a href="{{ path('app_dono_edit', {'id': dono.id}) }}">editar</a>
+    <a href="{{ path('app_dono_edit', {'id': dono.id}   ) }}">editar</a>
 
     {{ include('dono/_delete_form.html.twig') }}
     </div>
+    </div>
+  
+    <div class="dog-container">
+          <h2>Cachorros cadastrados</h2>
+        {% for cachorro in cachorros %}
+        <div class="descricao-dog">
+            <div class="infos-dog">    
+            
+                <div class="foto-dog">
+                        {% if cachorro.photo != null %}
+                            <div class="foto-dog">
+                            <img class="foto-dog" src="{{asset ('uploads/files/' ~ cachorro.photo)}}" >
+                            </div>
+                        {% endif %}
+                        </div>
+                
+            <h3>{{ cachorro.nome }}</h3>
+            <p><strong>Porte:</strong> {{ cachorro.porte }}</p>
+            </div>
+            <div >
+                <h3>Hospedagens anteriores</h3>
+                <div class="infos-hospedagem">
+                    {% for hospedagem in cachorro.hospedagems %}
+                        <div class="info-detalhada">
+                            <p><strong>Data de entrada:</strong> {{ hospedagem.getDataInicio()|date('d/m/Y') }}</p>
+                            <p><strong>Serviços:</strong> 
+                                <ul>{% for servico in hospedagem.getServicos() %}
+                                    <li>{{ servico.getNome() }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </p>
+                             <div>
+                             <p><strong>Ocorrências:</strong></p>
+                                {% for ocorrencia in hospedagem.getOcorrencias() %}
+                                    {% if ocorrencia.getOcorrencia() != true %}
+                                    <p> Não houveram ocorrências.</p>
+                                                                        
+                                    {% else %}
+                                    <p>{{ ocorrencia.getOcorrencia() }}</p>
+                                    {% endif %}
+                                {% endfor %}
+                            
+                            </div>
+                            <div>
+                            <button type="button" onclick="window.location.href='{{ path('app_hospedagem_recibo', {'id': hospedagem.id}) }}'">Ver Recibo</button>
+                            </div>
+
+                    </div>
+               
+                    {% endfor %}     
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+  
 </div>
 
 {% endblock %}

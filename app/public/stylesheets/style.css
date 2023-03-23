@@ -4,6 +4,7 @@
 @import './hospedagem.css';
 @import './outros.css';
 @import './recibo.css';
+@import './dono.css';
 
 body {
   margin: 0;
