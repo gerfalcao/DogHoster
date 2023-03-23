@@ -16,7 +16,10 @@ body {
   .print {
     display: none;
   }
-  
+  .main-menu {
+    display: none;
+  }
+
 }
 
 
