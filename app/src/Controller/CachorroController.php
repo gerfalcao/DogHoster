@@ -21,16 +21,23 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[Route('/cachorro')]
 class CachorroController extends AbstractController
 {
+    private $cachorroRepository;
+
+    public function __construct(CachorroRepository $cachorroRepository)
+    {
+      $this->cachorroRepository = $cachorroRepository;
+    }
+
     #[Route('/', name: 'app_cachorro_index', methods: ['GET'])]
-    public function index(CachorroRepository $cachorroRepository): Response
+    public function index(): Response
     {
         return $this->render('cachorro/index.html.twig', [
-            'cachorros' => $cachorroRepository->findAll(),
+            'cachorros' => $this->cachorroRepository->findAll(),
         ]);
     }
 
     #[Route('/new', name: 'app_cachorro_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CachorroRepository $cachorroRepository, SluggerInterface $slugger): Response
+    public function new(Request $request, SluggerInterface $slugger): Response
     {
         $cachorro = new Cachorro();
         $form = $this->createForm(CachorroType::class, $cachorro);
@@ -49,7 +56,7 @@ class CachorroController extends AbstractController
            
                 try {
                     $newPhoto->move(
-                        $this->getParameter('files_directory'), 
+                        $this->getParameter('photos_directory'), 
                         $newFilename);
                     
                 } catch (FileException $e) {
@@ -61,7 +68,7 @@ class CachorroController extends AbstractController
 
             // ... persist the $cachorro variable or any other work
            
-            $cachorroRepository->save($cachorro, true);
+            $this->cachorroRepository->save($cachorro, true);
 
             return $this->redirectToRoute('app_cachorro_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -81,13 +88,34 @@ class CachorroController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_cachorro_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Cachorro $cachorro, CachorroRepository $cachorroRepository): Response
+    public function edit(Request $request, Cachorro $cachorro, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(CachorroType::class, $cachorro);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $cachorroRepository->save($cachorro, true);
+            $newPhoto = $form->get('photo')->getData();
+               
+            if ($newPhoto) {
+                $originalFilename = pathinfo($newPhoto->getClientOriginalName(), PATHINFO_FILENAME);
+
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$newPhoto->guessExtension();
+
+       
+            try {
+                $newPhoto->move(
+                    $this->getParameter('photos_directory'), 
+                    $newFilename);
+                
+            } catch (FileException $e) {
+                echo 'Opa, tem algum problema com seu arquivo' . $e->getMessage();
+            }
+
+            $cachorro->setPhoto($newFilename);
+        }
+            
+            $this->cachorroRepository->save($cachorro, true);
 
             return $this->redirectToRoute('app_cachorro_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -99,10 +127,10 @@ class CachorroController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_cachorro_delete', methods: ['POST'])]
-    public function delete(Request $request, Cachorro $cachorro, CachorroRepository $cachorroRepository): Response
+    public function delete(Request $request, Cachorro $cachorro): Response
     {
         if ($this->isCsrfTokenValid('delete'.$cachorro->getId(), $request->request->get('_token'))) {
-            $cachorroRepository->remove($cachorro, true);
+            $this->cachorroRepository->remove($cachorro, true);
         }
 
         return $this->redirectToRoute('app_cachorro_index', [], Response::HTTP_SEE_OTHER);

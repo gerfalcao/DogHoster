@@ -24,17 +24,25 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HospedagemController extends AbstractController
 {
+    private $servicosRepository;
+    private $reciboService;
+    private $ocorrenciasRepository;
+    private $hospedagemRepository;
     private $em;
 
-    public function __construct(EntityManagerInterface $em, ReciboService $reciboService)
+    public function __construct(EntityManagerInterface $em, ReciboService $reciboService, HospedagemRepository $hospedagemRepository, OcorrenciasRepository $ocorrenciasRepository, ServicosRepository $servicosRepository)
     {
         $this->em = $em;
+        $this->hospedagemRepository = $hospedagemRepository;
+        $this->ocorrenciasRepository = $ocorrenciasRepository;
+        $this->reciboService = $reciboService;
+        $this->servicosRepository = $servicosRepository;
     }
 
     #[Route('/', name: 'app_hospedagem_index', methods: ['GET', 'POST'])]
-    public function index(HospedagemRepository $hospedagemRepository, Request $request): Response
+    public function index(Request $request): Response
     {
-        $hospedagensAtivas = $hospedagemRepository->findHospedagemsEmAberto();
+        $hospedagensAtivas = $this->hospedagemRepository->findHospedagemsEmAberto();
 
         $hospedagem = new Hospedagem();
         $form = $this->createForm(HospedagemType::class, $hospedagem);
@@ -43,14 +51,14 @@ class HospedagemController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $hospedagemRepository->save($hospedagem, true);
+            $this->hospedagemRepository->save($hospedagem, true);
 
             return $this->redirectToRoute('app_hospedagem_index', [], Response::HTTP_SEE_OTHER);
         }
 
     
         return $this->render('hospedagem/index.html.twig', [
-            'hospedagems' => $hospedagemRepository->findAll(),
+            'hospedagems' => $this->hospedagemRepository->findAll(),
             'hospedagensAtivas' => $hospedagensAtivas,
             'form' => $form,
         ]);
@@ -58,14 +66,14 @@ class HospedagemController extends AbstractController
 
    
     #[Route('/{id}', name: 'app_hospedagem_show', methods: ['GET', 'POST'])]
-    public function show(Hospedagem $hospedagem, Request $request, ServicosRepository $servicosRepository, OcorrenciasRepository $ocorrenciasRepository): Response
+    public function show(Hospedagem $hospedagem, Request $request): Response
     {
         $servico = new Servicos();
         $formServico = $this->createForm(ServicosType::class, $servico);
         $servico->setHospedagem($hospedagem);
         $formServico->handleRequest($request);
         if ($formServico->isSubmitted() && $formServico->isValid()) {
-            $servicosRepository->save($servico, true);
+            $this->servicosRepository->save($servico, true);
 
             return $this->redirectToRoute('app_hospedagem_show', ['id' => $hospedagem->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -75,11 +83,10 @@ class HospedagemController extends AbstractController
         $ocorrencia->setHospedagem($hospedagem);
         $formOcorrencia->handleRequest($request);
         if ($formOcorrencia->isSubmitted() && $formOcorrencia->isValid()) {
-            $ocorrenciasRepository->save($ocorrencia, true);
+            $this->ocorrenciasRepository->save($ocorrencia, true);
 
             return $this->redirectToRoute('app_hospedagem_show', ['id' => $hospedagem->getId()], Response::HTTP_SEE_OTHER);
         }
-
 
         $checkout = $request->query->get('checkout');
 
@@ -105,13 +112,13 @@ class HospedagemController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_hospedagem_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Hospedagem $hospedagem, HospedagemRepository $hospedagemRepository): Response
+    public function edit(Request $request, Hospedagem $hospedagem): Response
     {
         $form = $this->createForm(HospedagemType::class, $hospedagem);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $hospedagemRepository->save($hospedagem, true);
+            $this->hospedagemRepository->save($hospedagem, true);
 
             return $this->redirectToRoute('app_hospedagem_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -123,7 +130,7 @@ class HospedagemController extends AbstractController
     }
 
     #[Route('/{id}/recibo', name: 'app_hospedagem_recibo', methods: ['GET'])]
-    public function recibo(Request $request, Hospedagem $hospedagem, HospedagemRepository $hospedagemRepository): Response
+    public function recibo(Request $request, Hospedagem $hospedagem): Response
     {
         $recibo = $hospedagem->getRecibo();
         return $this->render('recibo/index.html.twig', [
@@ -132,22 +139,22 @@ class HospedagemController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_hospedagem_delete', methods: ['POST'])]
-    public function delete(Request $request, Hospedagem $hospedagem, HospedagemRepository $hospedagemRepository): Response
+    public function delete(Request $request, Hospedagem $hospedagem): Response
     {
         if ($this->isCsrfTokenValid('delete' . $hospedagem->getId(), $request->request->get('_token'))) {
-            $hospedagemRepository->remove($hospedagem, true);
+            $this->hospedagemRepository->remove($hospedagem, true);
         }
 
         return $this->redirectToRoute('app_hospedagem_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/fechar', name: 'fechar_hospedagem')]
-    public function fechar(Request $request, Hospedagem $hospedagem, HospedagemRepository $hospedagemRepository, ReciboService $reciboService): Response
+    public function fechar(Request $request, Hospedagem $hospedagem): Response
     {
         $hospedagem->setDataFim(new DateTime());
         $this->em->flush();
 
-        $recibo = $reciboService->createRecibo($hospedagem);
+        $recibo = $this->reciboService->createRecibo($hospedagem);
         $hospedagem->setRecibo($recibo);
         $this->em->flush();
 

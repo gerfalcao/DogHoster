@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Adicionar Cachorro{% endblock %}
+
+{% block stylesheets %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+ 
+{% block body %}
+
+<div class="item-show">
+    <div>
+        <h1>Adicionar Cachorro ao dono {{ dono.nome }}</h1>
+
+       {{ form_start(form) }}
+            {{ form_row(form.nome) }}
+            <p></p>
+            {{ form_row(form.porte) }}
+            <p></p>
+            {{ form_row(form.agressividade) }}
+            <p></p>
+            {# <div style="display: none"> #}
+            {{ form_row(form.dono) }}
+            {# </div> #}
+            {{ form_row(form.photo)}}
+            <p></p>
+            {# <button class="btn">{{ button_label|default('Save') }}</button> #}
+            {{ form_row(form.submit)}}
+
+
+{{ form_end(form) }}
+
+
+        <p></p>
+        <a href="{{ path('app_cachorro_index') }}">voltar para lista de Donos</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script>
+        // In your Javascript (external .js resource or <script> tag)
+     $(document).ready(function() {
+        $('.select2').select2();
+        });     
+    </script>
+ <script>
+    document.getElementById('add-dono-btn').addEventListener('click', function() {
+        let formDiv = document.getElementById('add-dono-form');
+        if (formDiv.style.display === 'none') {
+            formDiv.style.display = 'block';
+        } else {
+            formDiv.style.display = 'none';
+        }
+    });
+</script>
+
+{% endblock %}
