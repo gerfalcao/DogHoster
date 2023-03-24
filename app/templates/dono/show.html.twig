@@ -39,10 +39,10 @@
         <div class="descricao-dog">
             <div class="infos-dog">    
             
-                <div class="foto-dog">
+                        <div >
                         {% if cachorro.photo != null %}
-                            <div class="foto-dog">
-                            <img class="foto-dog" src="{{asset ('uploads/files/' ~ cachorro.photo)}}" >
+                            <div>
+                            <img class="foto-dog" src="{{asset ('uploads/photos/' ~ cachorro.photo)}}" >
                             </div>
                         {% endif %}
                         </div>

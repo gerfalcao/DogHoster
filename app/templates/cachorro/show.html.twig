@@ -6,9 +6,16 @@
 <div class="item-show">
     <div>
     <h1>Cachorro</h1>
-
+                        <div >
+                        {% if cachorro.photo != null %}
+                            <div>
+                            <img class="foto-dog" src="{{asset ('uploads/photos/' ~ cachorro.photo)}}" >
+                            </div>
+                        {% endif %}
+                        </div>
     <table class="table">
         <tbody>
+            
             <tr>
                 <th>Id</th>
                 <td>{{ cachorro.id }}</td>

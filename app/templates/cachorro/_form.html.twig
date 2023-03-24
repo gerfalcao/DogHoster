@@ -4,8 +4,8 @@
     {{ form_row(form.agressividade) }}
     {{ form_row(form.dono) }}
     {{ form_row(form.photo)}}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-
+    {# <button class="btn">{{ button_label|default('Save') }}</button> #}
+    {{ form_row(form.submit)}}
 {# <button type="button" id="add-dono-btn">Adicionar Dono</button>
     <div id="add-dono-form" style="display:none;">
     <p>teste</p>

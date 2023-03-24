@@ -38,28 +38,28 @@ class CachorroController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
            /** @var UploadedFile $photo  */
-           $photo = $form->get('photo')->getData();
-               if ($photo) {
+           $newPhoto = $form->get('photo')->getData();
+               
+                if ($newPhoto) {
+                    $originalFilename = pathinfo($newPhoto->getClientOriginalName(), PATHINFO_FILENAME);
 
-                $originalFilename = pathinfo($photo->getClientOriginalName(), PATHINFO_FILENAME);
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$newPhoto->guessExtension();
 
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$photo->guessExtension();
-
-                // Move the file to the directory where brochures are stored
+           
                 try {
-                    $photo->move($this->getParameter('file_directory'), $newFilename);
+                    $newPhoto->move(
+                        $this->getParameter('files_directory'), 
+                        $newFilename);
                     
                 } catch (FileException $e) {
-                    throw new \Exception('Opa, tem algum problema com seu arquivo');
+                    echo 'Opa, tem algum problema com seu arquivo' . $e->getMessage();
                 }
 
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
                 $cachorro->setPhoto($newFilename);
             }
 
-            // ... persist the $product variable or any other work
+            // ... persist the $cachorro variable or any other work
            
             $cachorroRepository->save($cachorro, true);
 

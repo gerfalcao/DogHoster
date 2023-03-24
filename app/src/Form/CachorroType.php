@@ -13,7 +13,9 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Validator\Constraints\File;
+
 
 class CachorroType extends AbstractType
 {
@@ -50,6 +52,7 @@ class CachorroType extends AbstractType
                 'class' => Dono::class,
                 'attr' => ['class' => 'select2']
             ])
+            ->add('submit', SubmitType::class)
         // $builder 
         //         ->add('dono', EntityType::class, [
         //         'class' => Dono::class,

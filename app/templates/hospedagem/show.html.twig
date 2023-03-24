@@ -7,6 +7,13 @@
    <div>
     <h1>Parcial da hospedagem de {{ hospedagem.getCachorro()}}</h1>
 
+     <div >
+                        {% if hospedagem.getCachorro().photo != null %}
+                            <div>
+                            <img class="foto-dog" src="{{asset ('uploads/photos/' ~ hospedagem.getCachorro().photo)}}" >
+                            </div>
+                        {% endif %}
+                        </div>
     
     <div>
         <p>Estado da Hospedagem: <b style="color:#FF0000"> {{ hospedagem.getEstado() }}</b> </p>
