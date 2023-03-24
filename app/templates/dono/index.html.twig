@@ -29,7 +29,7 @@
                 </td>
                 {% if dono.getCachorro() != null %}
                 <td>
-                    <button onclick="window.location.href='/cachorro/new'">Cadastrar Cachorro</button>
+                    <button onclick="window.location.href='{{ path('app_dono_novo_cachorro', {'id': dono.id}) }}'">Adicionar Cachorro</button>
                 </td>
                 {% endif %}
             </tr>

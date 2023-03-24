@@ -170,7 +170,7 @@ class DonoController extends AbstractController
         $dono->getCachorro()->add($cachorro);
         // $cachorro->setPorte('4');
         $cachorro->setNome('Novo Cachorro');
-        $cachorro->setDono($dono);
+       
       
         $form->handleRequest($request);
         
@@ -204,7 +204,7 @@ class DonoController extends AbstractController
             }
 
             // ... persist the $product variable or any other work
-           
+            $cachorro->setDono($dono);
             $this->cachorroRepository->save($cachorro, true);
             return $this->redirectToRoute('app_dono_index', [], Response::HTTP_SEE_OTHER);
         }
