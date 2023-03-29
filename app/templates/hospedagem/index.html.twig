@@ -5,27 +5,82 @@
 {% block body %}
 <main>
     
-    <div class="h3">
-            <h3>Hospedagens - {{ hospedagensAtivasQuantidade }} vagas disponíveis </h3>
-           
+    <div class="titulo">
+           <div class="tituloH3">
+            <h3>Hospedagens</h3>
+            </div>
+         
+            <div class="buttonVagas">
+                <div class="vagasDisponiveis">{{ hospedagensAtivasQuantidade }} vagas disponíveis
+                </div>
+                     <!-- Button trigger modal -->
+                <div class="buttonIniciar" data-bs-toggle="modal" data-bs-target="#Modal">
+                Nova hospedagem
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="ModalLabel">Iniciar nova hospedagem</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    </div>
+                    <div class="modal-body" id="ModalBody">
+                        {{ form_start(form) }}
+                                {{ form_widget(form)}}
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                        <button class="btn btn-success" data-dismiss="modal">{{ button_label|default('Iniciar') }}</button>
+                        {{ form_end(form) }}
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>  
+            <div class="tituloH4">
+            <h4>Cachorros hospedados</h4>
+            </div>        
     </div>
+
     <div class="lista-hospedagens">
-    
+            
+        {# <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Digite aqui..." name="busca" aria-label="busca" aria-describedby="button-addon2">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
+        </div> #}
         {% for hospedagem in hospedagensAtivas %}
-            <div class="slot"><a href="{{ path('app_hospedagem_show', {'id': hospedagem.id}) }}"><b>Cão:</b> {{ hospedagem.cachorro.getNome() }}</b>
-            <p><b> Dono:</b> {{ hospedagem.cachorro.getDono() }}</p>
-                            <b>Entrada:</b> {{ hospedagem.getDataInicio()|date('d/m/Y') }}
+            <div class="card">
+                
+                    <div class="dog-photo-card">
+                            {% if hospedagem.getCachorro().getPhoto() != null %}
                                 <div>
-                               
-                                </div></a>
+                                <img class="foto-dog" src="{{asset ('uploads/photos/' ~ hospedagem.getCachorro().getPhoto())}}" >
+                                </div>
+                            {% endif %}
+                    </div>
+                    <div class="dog-info-card">
+                       <div class="infos-dogg">
+                            <p><b>Cão:</b> {{ hospedagem.cachorro.getNome() }}</b><br>
+                                <b>Dono:</b> {{ hospedagem.cachorro.getDono() }}<br>
+                             <b>Contato: </b> {{ hospedagem.cachorro.getDono().getTelefone() }}<br><br>
+                                        <b>Entrada:</b> {{ hospedagem.getDataInicio()|date('d/m/Y') }}</p>
+                        </div>
+                        <div class="buttons">
+                            <div class="btn btn-success"><a href="{{ path('app_hospedagem_show', {'id': hospedagem.id}) }}"> Acessar Hospedagem </a></div>
+                        </div>
+                    </div>                    
+               
             </div>
         {% endfor %}
 
-        {% if hospedagensAtivas|length > 15 %}
+        {# {% if hospedagensAtivas|length > 15 %}
         <div class="aviso">Todos os 15 slots de hospedagem estão ocupados. Não é possível agendar novas hospedagens no momento.</div>
         {% else %}
-            <div class="slot-vazio">
-                <!-- Button trigger modal -->
+            <div class="slot-vazio"> #}
+                {# <!-- Button trigger modal -->
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal">
             Iniciar nova hospedagem
             </button>
@@ -50,7 +105,7 @@
                 </div>
                 </div>
             </div>
-            </div>
+            </div> #}
             
             
             {# <div class="slot-vazio-a"> #}
@@ -62,11 +117,14 @@
                     {{ form_end(form) }}
                     </div> #}
             {# </div> #}
-        </div>
+        {# </div>
             {% for i in 1..(15 - hospedagensAtivas|length - 1) %}
             <div class="slot-vazio"></div>
             {% endfor %}
-        {% endif %}
+        {% endif %} #}
+    
+    </div>
+    <div class="fim">
     </div>
 
 

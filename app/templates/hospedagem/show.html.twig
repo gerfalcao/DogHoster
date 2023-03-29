@@ -3,177 +3,174 @@
 {% block title %}Hospedagem de {{ hospedagem.getCachorro()}}{% endblock %}
 
 {% block body %}
-<div class="parcial-hospedagem">
-   <div>
-    <h1>Parcial da hospedagem de {{ hospedagem.getCachorro()}}</h1>
-
-     <div >
-                        {% if hospedagem.getCachorro().photo != null %}
-                            <div>
-                            <img class="foto-dog" src="{{asset ('uploads/photos/' ~ hospedagem.getCachorro().photo)}}" >
-                            </div>
-                        {% endif %}
+<main>
+    <div class="titulo">
+        <div class="tituloH3">
+        <h1>Parcial da hospedagem de {{ hospedagem.getCachorro()}}</h1>
+        </div>  
+    </div>
+    <div class="parcial-hospedagem">
+        <div class="card2">
+            <div class="dog-photo-card">
+                    {% if hospedagem.getCachorro().getPhoto() != null %}
+                        <div>
+                             <img class="foto-dog" src="{{asset ('uploads/photos/' ~ hospedagem.getCachorro().getPhoto())}}" >
                         </div>
+                    {% endif %}
+            </div>
+            <div class="dog-info-card">
+                <div class="infos-dogg">
+                    <p><b>Cão:</b> {{ hospedagem.cachorro.getNome() }}</b><br>
+                    <b>Dono:</b> {{ hospedagem.cachorro.getDono() }}<br>
+                    <b>Contato: </b> {{ hospedagem.cachorro.getDono().getTelefone() }}<br><br>
+                                    <b>Entrada:</b> {{ hospedagem.getDataInicio()|date('d/m/Y') }}</p>
+                
+                <div class="buttons">
+                        <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addServico">
+                    Adicionar Serviço
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="addServico" tabindex="-1" aria-labelledby="addServicoLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addServicoLabel">Adicionar serviço</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                {{ form_start(form_servico) }}
+                                    <label for="basic-url" class="form-label">Serviço</label>
+                                    <div class="input-group mb-3">
+                
+                                    {{ form_row(form_servico.nome, {'attr': {'class': 'form-control'}}) }}
+                                    </div>
+
+                        
+                                    <label for="basic-url" class="form-label">Preço unitário</label>
+                                    <div class="input-group mb-3">
+                                    <span class="input-group-text">R$</span>
+                                    {{ form_row(form_servico.preco, {'attr': {'class': 'form-control'}}) }}
+                                    <span class="input-group-text">,00</span>
+                                    </div>
+                                    <label for="basic-url" class="form-label">Quantidade</label>  
+                                    <div class="input-group">
+                                        <button class="input-group-text" type="button" id="button-addon1">-</button>
+                                        {{ form_widget(form_servico.quantidade, {'attr': {'class': 'form-control'}}) }}                              <button class="input-group-text" type="button" id="button-addon2">+</button>
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                    <button class="btn" data-dismiss="modal">{{ button_label|default('Registrar') }}</button>
+                                        {{ form_end(form_servico)}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>            
+                    </div>
+                
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalOcorrencias">
+                    Registrar ocorrência
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalOcorrencias" tabindex="-1" aria-labelledby="modalOcorrenciasLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalOcorrenciasLabel">Registrar ocorrência</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                    {{ form_start(form_ocorrencia)}}
+                                        {{ form_row(form_ocorrencia.ocorrencia)}}            
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                        <button class="btn" data-dismiss="modal">{{ button_label|default('Registrar ocorrência') }}</button>
+                                            {{ form_end(form_ocorrencia)}}
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>    
+            </div>    
+        </div>
     
-    <div>
-        <p>Estado da Hospedagem: <b style="color:#FF0000"> {{ hospedagem.getEstado() }}</b> </p>
-        {% if hospedagem.getEstado() == 'Em aberto' %}
-        <a href="{{ path('fechar_hospedagem', {'id': hospedagem.id}) }}" class="btn btn-danger">Fechar Hospedagem</a>
-       {% endif %}<p></p>
-        <div id="editDiv" {% if hospedagem.getEstado() == 'Em aberto' %}style="display: none"{% endif %}>
-            {% if hospedagem.getDataFim() != true %}
-            <p>Defina uma data de fechamento da hospedagem</p>
-            {% else %}
-            <button type="button" onclick="window.location.href='{{ path('app_hospedagem_recibo', {'id': hospedagem.id}) }}'">Ver Recibo</button>
-            {% endif %}
-        </div>
-    </div>
-    <div>Entrar em contato com o dono: {{ hospedagem.getCachorro().getDono().getTelefone() }}
-    </div>
-   
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Cachorro</th>
-                <td>{{ hospedagem.cachorro.getNome() }}</td>
-            </tr>
+        <div class="card3">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Cachorro</th>
+                        <td>{{ hospedagem.cachorro.getNome() }}</td>
+                    </tr>
 
-             <tr>
-                <th>Dono</th>
-                <td>{{ hospedagem.cachorro.getDono() }}</td>
-            </tr>
+                    <tr>
+                        <th>Dono</th>
+                        <td>{{ hospedagem.cachorro.getDono() }}</td>
+                    </tr>
 
-            <tr>
-                <th>Data de entrada</th>
-                <td>{{ hospedagem.dataInicio ? hospedagem.dataInicio|date('d/m/Y - H:i') : '' }}</td>
-            </tr>
-           
-            <tr>
-                <th>Duração estimada</th>
-                <td>{{ hospedagem.getPeriodo().format('%h horas, %i minutos') }}</td>
-            </tr>
-            <tr>
-                <th>Preço Estadia</th>
-                <td>
-                    <ul>R$ {{ valor_diarias }}
-                        <li>R${{ (hospedagem.getCachorro().getPorte() - 1) * 5 }}/período adicionais referente ao porte <b>{{ hospedagem.getCachorro().getPorteTexto()  }}</b></li>
-                        <li>R${{ ((hospedagem.getCachorro().getAgressividade())/ 100) * 10 }}/período adicionais referente à agressividade</li></ul>
-                    </td>
-            </tr>
-            <tr>
-                <th>Serviços adicionais</th>
-                {% for servico in hospedagem.getServicos() %}
-                 <tr>
-                <td>+ {{ servico.getQuantidade() }} {{ servico.getNome() }}</td>
-                <td>R$ {{ servico.calculaQuantidadePorPreco() }} (R$ {{ servico.getPreco() }} unitário) </td>
-        
-                </tr>
-                {% endfor %}
-                <th>Preço Serviços</th>
-                <td>R$ {{ valor_servico }}</td>
-
-            </tr>
+                    <tr>
+                        <th>Data de entrada</th>
+                        <td>{{ hospedagem.dataInicio ? hospedagem.dataInicio|date('d/m/Y - H:i') : '' }}</td>
+                    </tr>
+                
+                    <tr>
+                        <th>Duração estimada</th>
+                        <td>{{ hospedagem.getPeriodo().format('%h horas, %i minutos') }}</td>
+                    </tr>
+                    <tr>
+                        <th>Preço Estadia</th>
+                        <td>
+                            <ul>R$ {{ valor_diarias }}
+                                <li>R${{ (hospedagem.getCachorro().getPorte() - 1) * 5 }}/período adicionais referente ao porte <b>{{ hospedagem.getCachorro().getPorteTexto()  }}</b></li>
+                                <li>R${{ ((hospedagem.getCachorro().getAgressividade())/ 100) * 10 }}/período adicionais referente à agressividade</li></ul>
+                            </td>
+                    </tr>
+                    <tr>
+                        <th>Serviços adicionais</th>
+                        {% for servico in hospedagem.getServicos() %}
+                        <tr>
+                        <td>+ {{ servico.getQuantidade() }} {{ servico.getNome() }}</td>
+                        <td>R$ {{ servico.calculaQuantidadePorPreco() }} (R$ {{ servico.getPreco() }} unitário) </td>
+                
+                        </tr>
+                        {% endfor %}
+                        {% if hospedagem.getServicos() != null %}                        
+                        <th>Preço Serviços</th>
+                        <td>R$ {{ valor_servico }}</td>
+                        {% endif %}
+                    </tr>
+                    <hr>
+            
+                </tbody>
+            </table>
+    
             <hr>
-       
-        </tbody>
-    </table>
-    <hr>
-    <div><b>Preço Parcial:</b> R$ {{ valor_total }}</div>
-   <div id="editDiv" {% if hospedagem.getEstado() == 'Fechado' %}style="display: none"{% endif %}> 
-        <p>Clique para adicionar serviços:</p>
-
-             <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addServico">
-        Adicionar Serviço
-        </button>
-
-        <!-- Modal -->
-        <div class="modal fade" id="addServico" tabindex="-1" aria-labelledby="addServicoLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addServicoLabel">Adicionar serviço</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-               {{ form_start(form_servico) }}
-       <label for="basic-url" class="form-label">Serviço</label>
-       <div class="input-group mb-3">
-         
-         {{ form_row(form_servico.nome, {'attr': {'class': 'form-control'}}) }}
+            <div><b>Preço Parcial:</b> R$ {{ valor_total }}</div>
         </div>
-       
+
+        <div class="card3">
+            <p>Registro de ocorrências</p>
+            {% for ocorrencia in hospedagem.getOcorrencias() %}
+            <p> {{ ocorrencia.getOcorrencia() }} </p>
+            {% endfor %}
+        </div>
         
-           <label for="basic-url" class="form-label">Preço unitário</label>
-                <div class="input-group mb-3">
-             <span class="input-group-text">R$</span>
-             {{ form_row(form_servico.preco, {'attr': {'class': 'form-control'}}) }}
-                <span class="input-group-text">,00</span>
-                </div>
-             <label for="basic-url" class="form-label">Quantidade</label>  
-             <div class="input-group">
-                 <button class="input-group-text" type="button" id="button-addon1">-</button>
-                 {{ form_widget(form_servico.quantidade, {'attr': {'class': 'form-control'}}) }}
-  
-            <button class="input-group-text" type="button" id="button-addon2">+</button>
-   
-                    
-                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-            <button class="btn" data-dismiss="modal">{{ button_label|default('Registrar') }}</button>
-                {{ form_end(form_servico)}}
-            </div>
-            </div>
-        </div>
-        </div>
-            
+        {# <p><br><br><br></p>
+         {{ include('hospedagem/_delete_form.html.twig') }} #}
+    </div>     
+    <div class="titulo" >
+        <a href="{{ path('fechar_hospedagem', {'id': hospedagem.id}) }}" class="btn btn-danger">Fechar Hospedagem</a>
+    </div>
+     <div class="fim">
+    </div>
+     <div class="fim">
+    </div>
 
-
-    </div> 
-    <div>
-        <p>Registro de ocorrências</p>
-        {% for ocorrencia in hospedagem.getOcorrencias() %}
-        <p> {{ ocorrencia.getOcorrencia() }} </p>
-        {% endfor %}
-        <div id="editDiv" {% if hospedagem.getEstado() == 'Fechado' %}style="display: none"{% endif %}>
-       <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalOcorrencias">
-        Registrar ocorrência
-        </button>
-
-        <!-- Modal -->
-        <div class="modal fade" id="modalOcorrencias" tabindex="-1" aria-labelledby="modalOcorrenciasLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalOcorrenciasLabel">Registrar ocorrência</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                {{ form_start(form_ocorrencia)}}
-                    {{ form_row(form_ocorrencia.ocorrencia)}}
-                    
-                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-            <button class="btn" data-dismiss="modal">{{ button_label|default('Registrar ocorrência') }}</button>
-                {{ form_end(form_ocorrencia)}}
-            </div>
-            </div>
-        </div>
-        </div>
-            
-        
-        <p><br><br><br></p>
-    {{ include('hospedagem/_delete_form.html.twig') }}
- </div>     
- 
-
-</div>
-
+</main>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 
  <script>

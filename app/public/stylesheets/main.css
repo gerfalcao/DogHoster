@@ -1,29 +1,9 @@
 main {
-  max-width: 1500px;
-  margin: 0 auto;
-
+  
+  margin: 0;
+  background-color: #EDF5C4;
 }
 
-.main-menu {
-  width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-}
-
-.main-menu a {
-  padding: 5px 10px;
-  text-decoration: none;
-  color:black;
-  border-radius: 3px;
-  margin: 10px;
-}
-
-.main-menu a:hover {
-  background-color: #FF571B;
-  transition: all 0.5s;
-  color: antiquewhite;
-}
 
 .circle {
   background-color: #FF571B;
@@ -31,19 +11,108 @@ main {
   border-radius: 30px;
 }
 
-.h3 {
+.titulo {
+  margin: 0 auto;
+  max-width: 500px;
   display: flex;
-  margin: 30 auto 0 auto;
+  flex-wrap: wrap;
   justify-content: center;
 }
 
+.tituloH3 {
+  margin: 40px 0 0 0;
+  justify-content: center;
+}
+
+.tituloH4 {
+  margin: 50px 0 0 0;
+  justify-content: center;
+}
+
+.buttonVagas {
+  display: flex;
+  width: 400px;
+  height: 50px;
+  color: #FFFFFF;
+  background: #F9B96E;
+  border-radius: 16px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.vagasDisponiveis {
+  width: 220px;
+  display: flex;
+  justify-content: center;
+}
+
+.buttonIniciar {
+  display: flex;
+  padding: 0 15px;
+  height: 50px;
+  color: #FFFFFF;
+  background: #FF8A00;
+  border-radius: 16px;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonIniciar:hover {
+  background: #E07C06;
+  }
+
+.modal-title,
+.modal-body {
+  color: black;
+}  
+
 .lista-hospedagens {
   width: 70%;
-  margin: 20px auto;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
 }
 
+div .card {
+  width: 70%;
+  margin: 20px auto;
+  background-color: #BBCE8A;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  padding: 20px;
+  gap: 10px;
+}
+
+.dog-photo-card {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.dog-photo-card .foto-dog {
+  width: 100%;
+}
+
+.dog-info-card {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.dog-info-card a {
+  text-decoration: none;
+  color: #FFFFFF;
+}
+.dog-info-card a:hover {
+  text-decoration: none;
+  color: #FFFFFF;
+}
+
+.fim {
+  padding: 20px;
+}
+/* 
 .slot {
   width: 17%;
   height: 150px;
@@ -104,12 +173,12 @@ main {
   color:black;
   /* border-radius: 3px;
   margin: 10px; */
-  border: 2px solid #FF913C;
+  /* border: 2px solid #FF913C;
   border-radius: 2px;
   border-style: dotted;
-  background-color: #FFB371;
+  background-color: #FFB371; */
 
-}
+/* } */ 
 
 @media print {
   main-menu {

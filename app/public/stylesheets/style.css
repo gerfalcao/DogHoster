@@ -24,7 +24,11 @@ p {
 
 body {
   margin: 0;
-  font-family: inherit
+  padding: 0;
+  gap: 0;
+  background: #EDF5C4;
+  font-family: inherit;
+
 }
 
 .select2-container .select2-selection--single {
