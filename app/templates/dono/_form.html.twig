@@ -1,11 +1,16 @@
 
 
 {{ form_start(form) }}
+    <label for="nome" class="form-label">Nome Completo</label>
     {{ form_row(form.nome) }}
-    <br>
+
+    <label for="email" class="form-label">E-mail</label>
     {{ form_row(form.email)}}
-    <br>
-    {# <p>Adicione um cachorro</p>
+
+    <label for="telefone" class="form-label">Telefone</label>
+    {{ form_row(form.telefone)}}
+
+   {# <p>Adicione um cachorro</p>
 
     <ul class="cachorro"
         data-index="{{ form.cachorro|length > 0 ? form.cachorro|last.vars.name + 1 : 0 }}"
@@ -25,8 +30,8 @@
         </ul>
     <button type="button" class="add_item_link" data-collection-holder-class="cachorro">Quer adicionar outro cachorro?</button>
     #}
-
-    <button class="btn">{{ button_label|default('Salvar') }}</button>
+    <br>
+    <button class="btn btn-secondary">{{ button_label|default('Salvar') }}</button>
 {{ form_end(form) }}
 
 

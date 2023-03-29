@@ -149,8 +149,9 @@ class Hospedagem
     }
 
     public function calcularPrecoEstadia() {
-
-        $precoEstadia = $this->calcTotalPeriodos() * HospedagemConstants::VALOR_PERIODO;
+        $precoAgressividade = (($this->getCachorro()->getAgressividade()) / 100) * 10;
+        $precoPorte = ($this->getCachorro()->getPorte() - 1) * 5;
+        $precoEstadia = $this->calcTotalPeriodos() * HospedagemConstants::VALOR_PERIODO + $precoPorte + $precoAgressividade;
         return $precoEstadia;
     }
 

@@ -28,14 +28,11 @@
             {% endif %}
         </div>
     </div>
+    <div>Entrar em contato com o dono: {{ hospedagem.getCachorro().getDono().getTelefone() }}
+    </div>
    
     <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ hospedagem.id }}</td>
-            </tr>
-
             <tr>
                 <th>Cachorro</th>
                 <td>{{ hospedagem.cachorro.getNome() }}</td>
@@ -50,47 +47,25 @@
                 <th>Data de entrada</th>
                 <td>{{ hospedagem.dataInicio ? hospedagem.dataInicio|date('d/m/Y - H:i') : '' }}</td>
             </tr>
-            {# <tr>
-                <th>Data_fim</th>
-                {% if (hospedagem.dataFim != true) %}
-                <td> 
-                    <div id="editDiv" {% if hospedagem.estado == 'fechado' %}style="display: none"{% endif %}>
-                        <form action="{{ path('app_hospedagem_show', { 'id': hospedagem.getId() }) }}" method="GET">
-                         <input type="date" id="checkout" name="checkout" value="{{ "now"|date("Y-m-d  H:i:s") }}">
-                         <button type="submit">Atualizar</button>
-                        </form> 
-                    </div>
-                </td>
-                {% else %}
-                <td>{{ hospedagem.dataFim ? hospedagem.dataFim|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <div id="editDiv" {% if hospedagem.estado == 'fechado' %}style="display: none"{% endif %}>
-                        <button type="button" id="add-data-btn">Atualizar data</button>
-                        <div id="add-data-form" style="display:none;">
-                            <form action="{{ path('app_hospedagem_show', { 'id': hospedagem.getId() }) }}" method="GET">
-                                <label for="checkout">Nova data fim:</label>
-                                <input type="date" id="checkout" name="checkout" value="{{ "now"|date("Y-m-d  H:i:s") }}">
-                                <button type="submit">Atualizar</button>
-                            </form>
-                        </div>
-                    </div>
-                </td>
-                {% endif %}
-            </tr> #}
+           
             <tr>
                 <th>Duração estimada</th>
                 <td>{{ hospedagem.getPeriodo().format('%h horas, %i minutos') }}</td>
             </tr>
             <tr>
                 <th>Preço Estadia</th>
-                <td>R$ {{ valor_diarias }}</td>
+                <td>
+                    <ul>R$ {{ valor_diarias }}
+                        <li>R${{ (hospedagem.getCachorro().getPorte() - 1) * 5 }}/período adicionais referente ao porte <b>{{ hospedagem.getCachorro().getPorteTexto()  }}</b></li>
+                        <li>R${{ ((hospedagem.getCachorro().getAgressividade())/ 100) * 10 }}/período adicionais referente à agressividade</li></ul>
+                    </td>
             </tr>
             <tr>
                 <th>Serviços adicionais</th>
                 {% for servico in hospedagem.getServicos() %}
                  <tr>
                 <td>+ {{ servico.getNome() }}</td>
-                <td>R$ {{ servico.getPreco() }} reais</td>
+                <td>R$ {{ servico.getPreco() }} </td>
         
                 </tr>
                 {% endfor %}
@@ -103,37 +78,95 @@
         </tbody>
     </table>
     <hr>
-    <div><b>Preço Parcial:</b> R$ {{ valor_total }},00 reais </div>
+    <div><b>Preço Parcial:</b> R$ {{ valor_total }}</div>
    <div id="editDiv" {% if hospedagem.getEstado() == 'Fechado' %}style="display: none"{% endif %}> 
         <p>Clique para adicionar serviços:</p>
-    <button type="button" id="add-servico-btn">Adicionar Serviços</button>
-        <div id="add-servico-form" style="display:none;">
-    {{ form_start(form_servico) }}
-        {{ form_row(form_servico.nome) }}
-        {{ form_row(form_servico.preco) }}
-        {{ form_row(form_servico.quantidade) }}
-        {# {{ form_row(form.hospedagem) }} #}
-        <button class="btn">{{ button_label|default('Registrar') }}</button>
-    {{ form_end(form_servico) }}
 
+             <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addServico">
+        Adicionar Serviço
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="addServico" tabindex="-1" aria-labelledby="addServicoLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addServicoLabel">Adicionar serviço</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               {{ form_start(form_servico) }}
+       <label for="basic-url" class="form-label">Serviço</label>
+       <div class="input-group mb-3">
+         
+         {{ form_row(form_servico.nome, {'attr': {'class': 'form-control'}}) }}
         </div>
-    </div>
+       
+        
+           <label for="basic-url" class="form-label">Preço unitário</label>
+                <div class="input-group mb-3">
+             <span class="input-group-text">R$</span>
+             {{ form_row(form_servico.preco, {'attr': {'class': 'form-control'}}) }}
+                <span class="input-group-text">,00</span>
+                </div>
+             <label for="basic-url" class="form-label">Quantidade</label>  
+             <div class="input-group">
+                 <button class="input-group-text" type="button" id="button-addon1">-</button>
+                 {{ form_widget(form_servico.quantidade, {'attr': {'class': 'form-control'}}) }}
+  
+            <button class="input-group-text" type="button" id="button-addon2">+</button>
+   
+                    
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            <button class="btn" data-dismiss="modal">{{ button_label|default('Registrar') }}</button>
+                {{ form_end(form_servico)}}
+            </div>
+            </div>
+        </div>
+        </div>
+            
+
+
+    </div> 
     <div>
         <p>Registro de ocorrências</p>
         {% for ocorrencia in hospedagem.getOcorrencias() %}
         <p> {{ ocorrencia.getOcorrencia() }} </p>
         {% endfor %}
         <div id="editDiv" {% if hospedagem.getEstado() == 'Fechado' %}style="display: none"{% endif %}>
-        {{ form_start(form_ocorrencia)}}
-            {{ form_row(form_ocorrencia.ocorrencia)}}
-                <p>
-               <button class="btn">{{ button_label|default('Registrar ocorrência') }}</button>
-        {{ form_end(form_ocorrencia)}}
+       <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalOcorrencias">
+        Registrar ocorrência
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalOcorrencias" tabindex="-1" aria-labelledby="modalOcorrenciasLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalOcorrenciasLabel">Registrar ocorrência</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {{ form_start(form_ocorrencia)}}
+                    {{ form_row(form_ocorrencia.ocorrencia)}}
+                    
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            <button class="btn" data-dismiss="modal">{{ button_label|default('Registrar ocorrência') }}</button>
+                {{ form_end(form_ocorrencia)}}
+            </div>
+            </div>
         </div>
-
-    </div>    
-
-
+        </div>
+            
+        
         <p><br><br><br></p>
     {{ include('hospedagem/_delete_form.html.twig') }}
  </div>     
@@ -144,6 +177,24 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 
  <script>
+
+  $(document).ready(function() {
+        $('#button-addon1').click(function() {
+            console.log('clicou em -')
+       let currentValue = parseInt($('#servicos_quantidade').val());
+        if (currentValue > 0) {
+            $('#servicos_quantidade').val(currentValue - 1);
+        }
+        });
+
+        $('#button-addon2').click(function() {
+             console.log('clicou em +')
+        let currentValue = parseInt($('#servicos_quantidade').val());
+        $('#servicos_quantidade').val(currentValue + 1);
+        });
+    });
+
+
     document.getElementById('add-servico-btn').addEventListener('click', function() {
         let formDiv = document.getElementById('add-servico-form');
         if (formDiv.style.display === 'none') {
@@ -153,16 +204,8 @@
         }
     });
 
-    document.getElementById('add-data-btn').addEventListener('click', function() {
-    let formDiv = document.getElementById('add-data-form');
-    if (formDiv.style.display === 'none') {
-        formDiv.style.display = 'block';
-    } else {
-        formDiv.style.display = 'none';
-    }
-    });
 
-      
+  
 </script>
 
 

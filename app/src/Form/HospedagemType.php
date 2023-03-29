@@ -30,8 +30,9 @@ class HospedagemType extends AbstractType
             
             ->add('Cachorro', EntityType::class, [
                 'class' => Cachorro::class,
-                'attr' => ['class' => 'select2']
-                ])
+                'attr' => ['class' => 'select2'],
+                'label' => 'Cachorro / Dono: '
+            ])
         ;
     }
 

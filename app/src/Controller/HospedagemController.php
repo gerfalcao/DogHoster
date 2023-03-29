@@ -43,6 +43,7 @@ class HospedagemController extends AbstractController
     public function index(Request $request): Response
     {
         $hospedagensAtivas = $this->hospedagemRepository->findHospedagemsEmAberto();
+        $hospedagensAtivasQuantidade = 15 - count($hospedagensAtivas);
 
         $hospedagem = new Hospedagem();
         $form = $this->createForm(HospedagemType::class, $hospedagem);
@@ -60,6 +61,7 @@ class HospedagemController extends AbstractController
         return $this->render('hospedagem/index.html.twig', [
             'hospedagems' => $this->hospedagemRepository->findAll(),
             'hospedagensAtivas' => $hospedagensAtivas,
+            'hospedagensAtivasQuantidade' => $hospedagensAtivasQuantidade,
             'form' => $form,
         ]);
     }

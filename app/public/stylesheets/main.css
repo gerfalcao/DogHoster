@@ -45,8 +45,8 @@ main {
 }
 
 .slot {
-  width: 14%;
-  height: 120px;
+  width: 17%;
+  height: 150px;
   padding: 20px;
   border: 2px solid #FF913C;
   background-color: #FFB371;
@@ -56,16 +56,35 @@ main {
   grid-template-columns: 1fr;
 }
 
+.slot:hover {
+  background-color: #FF913C;
+}
+
+.slot a {
+  text-decoration: none;
+  color:black;
+}
+
 .slot-vazio {
   border: 2px solid #FF7959;
   background-color: #FF9E7D;
   padding: 20px;
   margin: 2px;
-  width: 14%;
-  height: 120px;
+  width: 17%;
+  height: 150px;
   display: flex;
   border-radius: 4px;
 }
+
+.slot-vazio:hover {
+  background-color: #FF913C;
+}
+
+.slot-vazio a {
+  text-decoration: none;
+  color:black;
+}
+
 
 .slot-vazio button {
   border: 2px solid #FF913C;

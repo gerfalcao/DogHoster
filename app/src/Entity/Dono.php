@@ -24,6 +24,9 @@ class Dono
     #[ORM\OneToMany(mappedBy: 'dono', targetEntity: Cachorro::class, orphanRemoval: true, cascade:['persist'])]
     private Collection $Cachorro;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $telefone = null;
+
     public function __construct()
     {
         $this->Cachorro = new ArrayCollection();
@@ -88,6 +91,18 @@ class Dono
                 $cachorro->setDono(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTelefone(): ?string
+    {
+        return $this->telefone;
+    }
+
+    public function setTelefone(?string $telefone): self
+    {
+        $this->telefone = $telefone;
 
         return $this;
     }

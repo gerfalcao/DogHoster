@@ -10,17 +10,17 @@
 
         <table class="table">
             <tbody>
-                <tr>
-                    <th>Id</th>
-                    <td>{{ dono.id }}</td>
-                </tr>
-                <tr>
+                 <tr>
                     <th>Nome</th>
                     <td>{{ dono.nome }}</td>
                 </tr>
                 <tr>
                     <th>Email</th>
                     <td>{{ dono.email }}</td>
+                </tr>
+                 <tr>
+                    <th>Telefone</th>
+                    <td>{{ dono.telefone }}</td>
                 </tr>
                 <tr>
                     <td><button onclick="window.location.href='{{ path('app_dono_novo_cachorro', {'id': dono.id}) }}'">Adicionar Cachorro</button>
@@ -52,7 +52,7 @@
                         </div>
                 
             <h3>{{ cachorro.nome }}</h3>
-            <p><strong>Porte:</strong> {{ cachorro.porte }}</p>
+            <p><strong>Porte:</strong> {{ cachorro.getPorteTexto() }}</p>
             </div>
             <div >
                 <h3>Hospedagens anteriores</h3>

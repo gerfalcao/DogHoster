@@ -1,11 +1,20 @@
 {{ form_start(form) }}
+    <label for="nome" class="form-label">Nome </label>
     {{ form_row(form.nome) }}
+    <label for="porte" class="form-label">Porte</label>
     {{ form_row(form.porte) }}
+    <br>
+    <label for="agressividade" class="form-label">Agressividade</label>
     {{ form_row(form.agressividade) }}
+
+    <label for="dono" class="form-label">Dono</label>
     {{ form_row(form.dono) }}
+    <br>
+    <label for="foto" class="form-label">Foto</label>
     {{ form_row(form.photo)}}
-    {# <button class="btn">{{ button_label|default('Save') }}</button> #}
-    {{ form_row(form.submit)}}
+    <br>
+    <button class="btn btn-secondary">{{ button_label|default('Salvar') }}</button>
+    {# {{ form_row(form.submit)}} #}
 {# <button type="button" id="add-dono-btn">Adicionar Dono</button>
     <div id="add-dono-form" style="display:none;">
     <p>teste</p>

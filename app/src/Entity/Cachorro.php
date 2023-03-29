@@ -173,6 +173,21 @@ class Cachorro
         return $this;
     }
 
- 
+    public function getPorteTexto(): string
+    {
+        switch ($this->getPorte()) {
+            case 1:
+                return 'micro';
+            case 2:
+                return 'pequeno';
+            case 3:
+                return 'médio';
+            case 4:
+                return 'grande';
+            default:
+                return '';
+        }
+    }
+
    
 }

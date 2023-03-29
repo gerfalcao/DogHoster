@@ -6,33 +6,62 @@
 <main>
     
     <div class="h3">
-            <h3>Hospedagens - 15 vagas</h3>
+            <h3>Hospedagens - {{ hospedagensAtivasQuantidade }} vagas disponíveis </h3>
            
     </div>
     <div class="lista-hospedagens">
     
         {% for hospedagem in hospedagensAtivas %}
-            <div class="slot"><b>{{ hospedagem.getCachorro() }}</b>
-                            <br><b>Entrada:</b> {{ hospedagem.getDataInicio()|date('d/m/Y') }}
+            <div class="slot"><a href="{{ path('app_hospedagem_show', {'id': hospedagem.id}) }}"><b>Cão:</b> {{ hospedagem.cachorro.getNome() }}</b>
+            <p><b> Dono:</b> {{ hospedagem.cachorro.getDono() }}</p>
+                            <b>Entrada:</b> {{ hospedagem.getDataInicio()|date('d/m/Y') }}
                                 <div>
-                                <a href="{{ path('app_hospedagem_show', {'id': hospedagem.id}) }}">Mostrar</a>
-                                </div>
+                               
+                                </div></a>
             </div>
         {% endfor %}
 
         {% if hospedagensAtivas|length > 15 %}
         <div class="aviso">Todos os 15 slots de hospedagem estão ocupados. Não é possível agendar novas hospedagens no momento.</div>
         {% else %}
-        <div class="slot-vazio">
-            <div class="slot-vazio-a">
-                  <button type="button" id="add-hospedagem-btn">Iniciar nova Hospedagem</button>
+            <div class="slot-vazio">
+                <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Modal">
+            Iniciar nova hospedagem
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                   <div class="modal-header">
+                    <h5 class="modal-title" id="ModalLabel">Iniciar nova hospedagem</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                 </div>
+                <div class="modal-body" id="ModalBody">
+                    {{ form_start(form) }}
+                            {{ form_widget(form)}}
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button class="btn" data-dismiss="modal">{{ button_label|default('Iniciar') }}</button>
+                    {{ form_end(form) }}
+                </div>
+                </div>
+            </div>
+            </div>
+            
+            
+            {# <div class="slot-vazio-a"> #}
+                  {# <button type="button" id="add-hospedagem-btn">Iniciar nova Hospedagem</button>
                     <div id="add-hospedagem-form" style="display:none;">
                     {{ form_start(form) }}
                         {{ form_widget(form)}}
                         <button class="btn">{{ button_label|default('Iniciar') }}</button>
                     {{ form_end(form) }}
-                    </div>
-            </div>
+                    </div> #}
+            {# </div> #}
         </div>
             {% for i in 1..(15 - hospedagensAtivas|length - 1) %}
             <div class="slot-vazio"></div>
@@ -47,9 +76,17 @@
   <script>
         // In your Javascript (external .js resource or <script> tag)
      $(document).ready(function() {
-        $('.select2').select2();
-        });     
+        $('.select2').select2({
+  dropdownParent: $('#ModalBody')
+});
+        });    
     </script>
+
+<script>
+$('.select2').select2({
+  dropdownParent: $('#ModalBody')
+});
+</script>
 
 <script>
  document.getElementById('add-hospedagem-btn').addEventListener('click', function() {
