@@ -40,6 +40,10 @@ body {
   width: 10%;
 }
 
+.form-label {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
 
 @media print {
   .print {
