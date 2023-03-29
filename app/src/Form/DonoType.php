@@ -17,16 +17,19 @@ class DonoType extends AbstractType
         $builder
             ->add('nome', TextType::class, [
                 'attr' => array(
+                    'class' => 'form-control',
                     'placeholder' => 'Maria Aparecida'),
                 'label' => false,
             ])
             ->add('email', EmailType::class, [
                 'attr' => array(
+                    'class' => 'form-control',
                     'placeholder' => 'seunome@seuemail.com'),
                 'label' => false,  
             ])
             ->add('telefone', TextType::class, [
                 'attr' => array(
+                    'class' => 'form-control',
                     'placeholder' => '(99) 9999-9999'),
                 'label' => false,
             ])
