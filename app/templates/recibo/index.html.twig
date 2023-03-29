@@ -15,7 +15,7 @@
 <p><b>Tempo Total:</b> {{ recibo.getIntervaloTempo() }}</p>
 <p><b>Serviços Adicionais:</b> </p>
 {% for servico in recibo.hospedagem.getServicos() %}
-<p><b>+ {{ servico.getNome() }}</b>: R$ {{ servico.getPreco() }}</p> 
+<p>+ {{ servico.getQuantidade() }} {{ servico.getNome() }}: R$ {{ servico.calculaQuantidadePorPreco() }}</p> 
 {% endfor %}
 <p><b>Preço Total Estadia</b><ul>R$ {{ recibo.getPrecoEstadia() }}
                         <li>R${{ (recibo.getHospedagem().getCachorro().getPorte() - 1) * 5 }}/período adicionais referente ao porte <b>{{ recibo.getHospedagem().getCachorro().getPorteTexto()  }}</b></li>
