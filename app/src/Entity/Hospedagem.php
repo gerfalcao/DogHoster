@@ -143,7 +143,7 @@ class Hospedagem
     public function calcularTotalServicos() {
         $valor_total_servicos = 0;
         foreach ($this->servicos as $servico) { 
-            $valor_total_servicos += $servico->getPreco();
+            $valor_total_servicos += $servico->calculaQuantidadePorPreco();
         };
         return $valor_total_servicos;
     }

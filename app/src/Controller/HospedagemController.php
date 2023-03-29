@@ -9,6 +9,7 @@ use App\Entity\Servicos;
 use App\Form\HospedagemType;
 use App\Form\OcorrenciaType;
 use App\Form\ServicosType;
+use App\Repository\CachorroRepository;
 use App\Repository\HospedagemRepository;
 use App\Repository\OcorrenciasRepository;
 use App\Repository\ReciboRepository;
@@ -29,14 +30,16 @@ class HospedagemController extends AbstractController
     private $ocorrenciasRepository;
     private $hospedagemRepository;
     private $em;
+    private $cachorroRepository;
 
-    public function __construct(EntityManagerInterface $em, ReciboService $reciboService, HospedagemRepository $hospedagemRepository, OcorrenciasRepository $ocorrenciasRepository, ServicosRepository $servicosRepository)
+    public function __construct(EntityManagerInterface $em, ReciboService $reciboService, HospedagemRepository $hospedagemRepository, OcorrenciasRepository $ocorrenciasRepository, ServicosRepository $servicosRepository, CachorroRepository $cachorroRepository)
     {
         $this->em = $em;
         $this->hospedagemRepository = $hospedagemRepository;
         $this->ocorrenciasRepository = $ocorrenciasRepository;
         $this->reciboService = $reciboService;
         $this->servicosRepository = $servicosRepository;
+        $this->cachorroRepository = $cachorroRepository;
     }
 
     #[Route('/', name: 'app_hospedagem_index', methods: ['GET', 'POST'])]
@@ -44,11 +47,17 @@ class HospedagemController extends AbstractController
     {
         $hospedagensAtivas = $this->hospedagemRepository->findHospedagemsEmAberto();
         $hospedagensAtivasQuantidade = 15 - count($hospedagensAtivas);
+        
+        // $hospedagensDisponiveis = $this->hospedagemRepository->findHospedagemsFechadas();
+        // $opcoesCachorros = array_map(function($hospedage) {
+        //     return $hospedage->getCachorro();
+        // }, $hospedagensDisponiveis);
+
 
         $hospedagem = new Hospedagem();
         $form = $this->createForm(HospedagemType::class, $hospedagem);
         $hospedagem->setDataInicio(new DateTime());
-        // $hospedagem->setEstado('em aberto');
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

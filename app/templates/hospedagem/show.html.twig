@@ -64,8 +64,8 @@
                 <th>Serviços adicionais</th>
                 {% for servico in hospedagem.getServicos() %}
                  <tr>
-                <td>+ {{ servico.getNome() }}</td>
-                <td>R$ {{ servico.getPreco() }} </td>
+                <td>+ {{ servico.getQuantidade() }} {{ servico.getNome() }}</td>
+                <td>R$ {{ servico.calculaQuantidadePorPreco() }} (R$ {{ servico.getPreco() }} unitário) </td>
         
                 </tr>
                 {% endfor %}

@@ -78,4 +78,10 @@ class Servicos
 
         return $this;
     }
+
+    public function calculaQuantidadePorPreco()
+    {
+        return $this->getQuantidade() * $this->getPreco();
+    }
+
 }
