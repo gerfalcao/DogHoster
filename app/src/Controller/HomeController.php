@@ -21,6 +21,12 @@ use Symfony\Bundle\SecurityBundle\Security;
 #[Route('/')]
 class HomeController extends AbstractController
 {
+    private $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
 
     #[Route('/login', name: 'app_login')]
     public function index(AuthenticationUtils $authenticationUtils): Response
@@ -50,15 +56,15 @@ class HomeController extends AbstractController
     }    
 
     #[Route('/user', name: 'app_user_index', methods: ['GET'])]
-    public function user(UserRepository $userRepository): Response
+    public function user(): Response
     {
         return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $this->userRepository->findAll(),
         ]);
     }
 
     #[Route('/user/new', name: 'app_user_new', methods: ['GET', 'POST'])]
-    public function newUser(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
+    public function newUser(Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = new User();
         
@@ -75,7 +81,7 @@ class HomeController extends AbstractController
             );
             $user->setPassword($hashedPassword);
             
-            $userRepository->save($user, true);
+            $this->userRepository->save($user, true);
 
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -87,7 +93,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/admin/new', name: 'app_admin_new', methods: ['GET', 'POST'])]
-    public function newAdmin(Request $request, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher): Response
+    public function newAdmin(Request $request, UserPasswordHasherInterface $passwordHasher): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -101,7 +107,7 @@ class HomeController extends AbstractController
                 $plaintextPassword
             );
             $user->setPassword($hashedPassword);
-            $userRepository->save($user, true);
+            $this->userRepository->save($user, true);
 
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -122,13 +128,13 @@ class HomeController extends AbstractController
     }
 
     #[Route('/user/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user, UserRepository $userRepository): Response
+    public function edit(Request $request, User $user): Response
     {
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $userRepository->save($user, true);
+            $this->userRepository->save($user, true);
 
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -140,17 +146,17 @@ class HomeController extends AbstractController
     }
 
     #[Route('/user/{id}', name: 'app_user_delete', methods: ['POST'])]
-    public function delete(Request $request, User $user, UserRepository $userRepository): Response
+    public function delete(Request $request, User $user): Response
     {
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
-            $userRepository->remove($user, true);
+            $this->userRepository->remove($user, true);
         }
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/logout', name: 'app_logout', methods: ['GET'])]
-    public function someAction(Security $security): Response
+    public function someAction(Security $security)
     {
         // logout the user in on the current firewall
         $response = $security->logout();
