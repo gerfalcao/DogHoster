@@ -21,6 +21,7 @@
     <body class="body">
    
     <header>
+     {% if is_granted('IS_AUTHENTICATED_REMEMBERED')%}
     <div class="item-show-2">
         <div class="header-logo">
                 <div class="img-logo">
@@ -60,6 +61,7 @@
             
         </div>
     </div>
+    {% endif %}
     </header>
 
        
