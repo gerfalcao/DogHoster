@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Dono index{% endblock %}
+{% block title %}Donos cadastrados{% endblock %}
 
 {% block body %}
-
+<main>
 <div class="item-show">
-    <div>
-    <h1>Dono índice</h1>
+    <div class="dono-container">
+    <h2>Donos cadastrados</h2>
 
     <table class="table">
         <thead>
@@ -14,17 +14,19 @@
                 <th>Id</th>
                 <th>Nome</th>
                 <th>Email</th>
-                <th>ações</th>
+                <th>Telefone</th>
+                <th>Opções</th>
             </tr>
         </thead>
         <tbody>
         {% for dono in donos %}
-            <tr>
+            <tr class="recibo">
                 <td>{{ dono.id }}</td>
                 <td>{{ dono.nome }}</td>
                 <td>{{ dono.email }}</td>
+                <td>{{ dono.telefone }}</td>
                 <td>
-                    <a href="{{ path('app_dono_show', {'id': dono.id}) }}">Ver tudo</a>
+                    <a href="{{ path('app_dono_show', {'id': dono.id}) }}">Ver</a>
                     <a href="{{ path('app_dono_edit', {'id': dono.id}) }}">Editar</a>
                 </td>
                 {% if dono.getCachorro() != null %}
@@ -46,5 +48,5 @@
     
     </div>
 </div>
-
+</main>
 {% endblock %}

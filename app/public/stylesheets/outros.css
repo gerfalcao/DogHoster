@@ -4,6 +4,14 @@
   margin: 0 auto;
   padding: 40px 20px;
   gap: 10px;
+  
+}
+
+.item-show-2 {
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
 
 }
 

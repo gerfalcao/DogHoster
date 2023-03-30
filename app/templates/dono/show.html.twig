@@ -4,9 +4,9 @@
 
 {% block body %}
 
-<div class="item-show2">
-    <div>
-        <h1>Dono</h1>
+<div class="dono-show-3">
+    <div class="dono-container-2">
+        <h1>{{ dono.nome }}</h1>
 
         <table class="table">
             <tbody>
@@ -29,33 +29,37 @@
             </tbody>
         </table>
           <div>
-    <a href="{{ path('app_dono_index') }}">voltar para lista de donos</a>
+                <a href="{{ path('app_dono_index') }}">voltar para lista de donos</a>
 
-    <a href="{{ path('app_dono_edit', {'id': dono.id}   ) }}">editar</a>
+                <a href="{{ path('app_dono_edit', {'id': dono.id}   ) }}">editar</a>
 
-    {{ include('dono/_delete_form.html.twig') }}
+                {{ include('dono/_delete_form.html.twig') }}
+         </div>
     </div>
-    </div>
-  
+
     <div class="dog-container">
-          <h2>Cachorros cadastrados</h2>
+          <h2>Cachorros de {{ dono.nome }}</h2>
         {% for cachorro in cachorros %}
-        <div class="descricao-dog">
-            <div class="infos-dog">    
-            
-                        <div >
-                        {% if cachorro.photo != null %}
+        
+            <div class="card2">
+                <div class="dog-photo-card">
+                        {% if cachorro.getPhoto() != null %}
                             <div>
-                            <img class="foto-dog" src="{{asset ('uploads/photos/' ~ cachorro.photo)}}" >
+                                <img class="foto-dog" src="{{asset ('uploads/photos/' ~ cachorro.getPhoto())}}" >
                             </div>
                         {% endif %}
-                        </div>
-                
-            <h3>{{ cachorro.nome }}</h3>
-            <p><strong>Porte:</strong> {{ cachorro.getPorteTexto() }}</p>
-            </div>
-            <div >
-                <h3>Hospedagens anteriores</h3>
+                </div>
+                <div class="dog-info-card">
+                    <div class="infos-dogg">
+                        <h3>{{ cachorro.getNome() }}</h3><br>
+                        <b>Porte:</b> {{ cachorro.getPorteTexto() }}<br>
+                        <b>Agressividade: </b> {{ cachorro.getAgressividade() }}%<br><br>
+                                        
+                    </div>
+                </div>
+            </div>        
+            <div class="card3">
+                <h4>Hospedagens anteriores de {{ cachorro.getNome() }} </h4>
                 <div class="infos-hospedagem">
                     {% for hospedagem in cachorro.hospedagems %}
                         <div class="info-detalhada">
@@ -87,7 +91,7 @@
                     {% endfor %}     
                 </div>
             </div>
-        </div>
+       
         {% endfor %}
     </div>
     

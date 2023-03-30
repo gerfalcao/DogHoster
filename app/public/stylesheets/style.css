@@ -7,14 +7,7 @@
 @import './dono.css';
 @import url('https://fonts.googleapis.com/css2?family=Manrope&family=Mukta:wght@600&display=swap');
 
-body {
-  margin: 0;
-  padding: 0;
-  gap: 0;
-  background: #EDF5C4;
-  font-family: inherit;
 
-}
 
 
 button,
@@ -32,7 +25,13 @@ p {
   font-family: 'Manrope', sans-serif;
 }
 
+.body {
+  margin: 0;
+  padding: 0;
+  gap: 0;
+  background-color: #EDF5C4;
 
+}
 
 .select2-container .select2-selection--single {
   width: 300px;

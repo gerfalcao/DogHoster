@@ -1,11 +1,51 @@
 .item-show2 {
-  
   display: flex;
   grid-template-columns: 1fr 3fr;
   justify-content: center;
   margin: 0 auto;
   padding: 40px 20px;
   gap: 10px;
+}
+
+.dono-show-3 {
+  width: 60%;
+  display: flex;
+  grid-template-columns: 1fr 3fr;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 40px 20px;
+  gap: 15px;
+}
+
+.dono-show-3 .card3 {
+  width: 100%;
+  margin: 5px auto 20px auto;
+  background-color: #BBCE8A;
+  padding: 20px;
+  gap: 20px;
+  border-radius: 4px;
+  justify-content: center;
+  border: 1px solid #8C8C8C;
+}
+
+.dono-show-3 .card2 {
+  width: 100%;
+
+}
+
+.dono-container {
+  background-color: white;
+  padding: 20px 40px;
+  border: 1px solid #9F9F9F;
+  border-radius: 3px;
+}
+
+.dono-container-2 {
+  height: 50%;
+  background-color: white;
+  padding: 20px 40px;
+  border: 1px solid #9F9F9F;
+  border-radius: 3px;
 }
 
 .dog-container {
@@ -23,17 +63,6 @@
   
 }
  
-.infos-dog {
-  padding: 10px 20px;
-  background-color: #FFB371;
-  border-radius: 5px;
-  border: 2px solid #FF913C;
-  border-style: dotted;
-}
-
-.foto-dog {
-  width: 20%;
-}
 
 .infos-hospedagem {
   display: flex;
@@ -43,9 +72,10 @@
 } 
 
 .info-detalhada {
-  padding: 0px 12px 12px 12px;
-  background-color: #FFB371;
+  width: 100%;
+  padding: 12px;
+  background-color: #EDF5C4;
   border-radius: 5px;
-  border: 2px solid #FF913C;
-  border-style: dotted;
+  border: 1px solid #9F9F9F;
+
 }

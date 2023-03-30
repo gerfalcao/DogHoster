@@ -9,7 +9,7 @@
 {% block body %}
 
 <div class="item-show">
-    <div>
+    <div class="card4">
         <h1>Adicionar Cachorro ao dono {{ dono.nome }}</h1>
 
        {{ form_start(form) }}
@@ -37,7 +37,7 @@
 
 
         <p></p>
-        <a href="{{ path('app_cachorro_index') }}">voltar para lista de Donos</a>
+        <a href="{{ path('app_dono_show', {'id': dono.id}) }} }}">voltar para Dono {{ dono.nome }}</a>
     </div>
 </div>
 {% endblock %}

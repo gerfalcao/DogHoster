@@ -1,5 +1,7 @@
+
+
 main {
-  
+
   margin: 0;
   background-color: #EDF5C4;
 }
@@ -114,73 +116,6 @@ div .card {
 .fim {
   padding: 20px;
 }
-/* 
-.slot {
-  width: 17%;
-  height: 150px;
-  padding: 20px;
-  border: 2px solid #FF913C;
-  background-color: #FFB371;
-  border-radius: 4px;
-  margin: 2px;
-  display: grid;
-  grid-template-columns: 1fr;
-}
-
-.slot:hover {
-  background-color: #FF913C;
-}
-
-.slot a {
-  text-decoration: none;
-  color:black;
-}
-
-.slot-vazio {
-  border: 2px solid #FF7959;
-  background-color: #FF9E7D;
-  padding: 20px;
-  margin: 2px;
-  width: 17%;
-  height: 150px;
-  display: flex;
-  border-radius: 4px;
-}
-
-.slot-vazio:hover {
-  background-color: #FF913C;
-}
-
-.slot-vazio a {
-  text-decoration: none;
-  color:black;
-}
-
-
-.slot-vazio button {
-  border: 2px solid #FF913C;
-  border-radius: 2px;
-  border-style: dotted;
-  background-color: #FFB371;
-}
-
-.slot-vazio button:hover {
-    background-color: #FF913C;
-}
-
-
-.slot-vazio-a {
-  padding: 5px 10px;
-  text-decoration: none;
-  color:black;
-  /* border-radius: 3px;
-  margin: 10px; */
-  /* border: 2px solid #FF913C;
-  border-radius: 2px;
-  border-style: dotted;
-  background-color: #FFB371; */
-
-/* } */ 
 
 @media print {
   main-menu {

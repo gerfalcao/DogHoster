@@ -3,10 +3,11 @@
 {% block title %}Lista de Recibos{% endblock %}
 
 {% block body %}
+<main>
 <div class="item-show">
-<div>
-<table>
-  <tr>
+  <div class="dono-container">
+    <table class="table">
+    <tr>
     
     <td>
     <b>Nº Recibo</b>
@@ -23,7 +24,7 @@
    
   </tr>
   {% for recibo in recibos %}
-  <tr>
+  <tr class="recibo">
    
     <td>
     {{ recibo.id }}
@@ -47,8 +48,8 @@
 
   </tr>
   {% endfor %}
-</table>
+  </table>
 </div>
 </div>
-
+</main>
 {% endblock %}
