@@ -26,6 +26,8 @@ div .card2 {
   padding: 20px;
   gap: 10px;
   border-radius: 4px;
+  border: 1px solid #8C8C8C;
+
 }
 
 div .card3 {
@@ -36,10 +38,35 @@ div .card3 {
   gap: 10px;
   border-radius: 4px;
   justify-content: center;
+  border: 1px solid #8C8C8C;
+}
+
+div .card4 {
+  max-width: 500px;
+  margin: 5px auto;
+  background-color: #BBCE8A;
+  padding: 20px;
+  gap: 10px;
+  border-radius: 4px;
+  justify-content: center;
+  border: 1px solid #8C8C8C;
+  align-self: center;
+}
+
+
+.infos-dogg {
+  width: 100%;
 }
 
 .buttons {
   align-self: flex-end;
+  justify-content: space-between;
+}
+
+.fechar-hospedagem {
+  display: flex;
+  width: 70%;
+  margin: 0 auto;
 }
 
 .class {

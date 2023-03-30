@@ -3,15 +3,16 @@
 {% block title %}Novo Dono{% endblock %}
 
 {% block body %}
-
+<main>
 <div class="item-show">
 
-    <div>
-    <h1>Cadastrar novo Dono</h1>
+    <div class="card4">
+        <h1>Cadastrar novo Dono</h1>
 
-    {{ include('dono/_form.html.twig') }}
-    <br>
-    <a href="{{ path('app_dono_index') }}">lista de donos</a>
+        {{ include('dono/_form.html.twig') }}
+        <br>
+        <a href="{{ path('app_dono_index') }}">lista de donos</a>
     </div>
 </div>
+</main>
 {% endblock %}

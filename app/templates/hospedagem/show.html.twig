@@ -24,7 +24,7 @@
                     <b>Dono:</b> {{ hospedagem.cachorro.getDono() }}<br>
                     <b>Contato: </b> {{ hospedagem.cachorro.getDono().getTelefone() }}<br><br>
                                     <b>Entrada:</b> {{ hospedagem.getDataInicio()|date('d/m/Y') }}</p>
-                
+                </div>
                 <div class="buttons">
                         <!-- Button trigger modal -->
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addServico">
@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                                    <button class="btn" data-dismiss="modal">{{ button_label|default('Registrar') }}</button>
+                                    <button class="btn btn-primary" data-dismiss="modal">{{ button_label|default('Registrar') }}</button>
                                         {{ form_end(form_servico)}}
                                     </div>
                                 </div>
@@ -88,12 +88,11 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                                        <button class="btn" data-dismiss="modal">{{ button_label|default('Registrar ocorrência') }}</button>
+                                        <button class="btn btn-warning" data-dismiss="modal">{{ button_label|default('Registrar ocorrência') }}</button>
                                             {{ form_end(form_ocorrencia)}}
                                     </div>
                                 </div>
                         </div>
-                    </div>
                     </div>
                 </div>    
             </div>    
@@ -126,7 +125,7 @@
                         <td>
                             <ul>R$ {{ valor_diarias }}
                                 <li>R${{ (hospedagem.getCachorro().getPorte() - 1) * 5 }}/período adicionais referente ao porte <b>{{ hospedagem.getCachorro().getPorteTexto()  }}</b></li>
-                                <li>R${{ ((hospedagem.getCachorro().getAgressividade())/ 100) * 10 }}/período adicionais referente à agressividade</li></ul>
+                                <li>R${{ ((hospedagem.getCachorro().getAgressividade())/ 100) * 10 }}/período adicionais referente à agressividade (taxa de {{ hospedagem.getCachorro().getAgressividade() }}%)</li></ul>
                             </td>
                     </tr>
                     <tr>
@@ -161,10 +160,11 @@
         
         {# <p><br><br><br></p>
          {{ include('hospedagem/_delete_form.html.twig') }} #}
+         <div class="fechar-hospedagem">
+            <a href="{{ path('fechar_hospedagem', {'id': hospedagem.id}) }}" class="btn btn-danger">Fechar Hospedagem</a>
+        </div>
     </div>     
-    <div class="titulo" >
-        <a href="{{ path('fechar_hospedagem', {'id': hospedagem.id}) }}" class="btn btn-danger">Fechar Hospedagem</a>
-    </div>
+  
      <div class="fim">
     </div>
      <div class="fim">

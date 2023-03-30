@@ -7,9 +7,9 @@
 {% endblock %}
  
 {% block body %}
-
+<main>
 <div class="item-show">
-    <div>
+    <div class="card4">
         <h1>Cadastrar Cachorro</h1>
 
         {{ include('cachorro/_form.html.twig') }}
@@ -17,5 +17,6 @@
         <a href="{{ path('app_cachorro_index') }}">voltar para lista de cachorros</a>
     </div>
 </div>
+</main>
 {% endblock %}
 

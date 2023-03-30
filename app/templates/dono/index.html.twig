@@ -24,8 +24,8 @@
                 <td>{{ dono.nome }}</td>
                 <td>{{ dono.email }}</td>
                 <td>
-                    <a href="{{ path('app_dono_show', {'id': dono.id}) }}">show</a>
-                    <a href="{{ path('app_dono_edit', {'id': dono.id}) }}">edit</a>
+                    <a href="{{ path('app_dono_show', {'id': dono.id}) }}">Ver tudo</a>
+                    <a href="{{ path('app_dono_edit', {'id': dono.id}) }}">Editar</a>
                 </td>
                 {% if dono.getCachorro() != null %}
                 <td>
@@ -43,10 +43,7 @@
 
     <a href="{{ path('app_dono_new') }}">Cadastrar novo Dono</a>
     <br><br>
-    <a href="/cachorro/new">Cadastrar novo Cachorro</a>
-    <br>
-    <a href="/">Iniciar nova hospedagem</a>
-
+    
     </div>
 </div>
 

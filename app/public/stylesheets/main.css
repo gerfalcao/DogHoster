@@ -12,25 +12,27 @@ main {
 }
 
 .titulo {
-  margin: 0 auto;
-  max-width: 500px;
+  margin: 0px auto;
+  max-width: 70%;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: center;
 }
 
 .tituloH3 {
-  margin: 40px 0 0 0;
+  margin: 40px auto 0 auto;
   justify-content: center;
+
 }
 
 .tituloH4 {
-  margin: 50px 0 0 0;
-  justify-content: center;
+  margin: 50px auto 0 auto;
+
 }
 
 .buttonVagas {
   display: flex;
+  margin: 0 auto;
   width: 400px;
   height: 50px;
   color: #FFFFFF;
