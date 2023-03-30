@@ -27,6 +27,9 @@ div .card2 {
   gap: 10px;
   border-radius: 4px;
   border: 1px solid #8C8C8C;
+  -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.38);
+  -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.38);
+  box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.38);
 
 }
 
@@ -39,6 +42,9 @@ div .card3 {
   border-radius: 4px;
   justify-content: center;
   border: 1px solid #8C8C8C;
+  -webkit-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.38);
+  -moz-box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.38);
+  box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.38);
 }
 
 div .card4 {
