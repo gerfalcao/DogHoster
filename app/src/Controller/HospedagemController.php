@@ -45,6 +45,7 @@ class HospedagemController extends AbstractController
     #[Route('/', name: 'app_hospedagem_index', methods: ['GET', 'POST'])]
     public function index(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
         $hospedagensAtivas = $this->hospedagemRepository->findHospedagemsEmAberto();
         $hospedagensAtivasQuantidade = 15 - count($hospedagensAtivas);
         
@@ -79,6 +80,7 @@ class HospedagemController extends AbstractController
     #[Route('/{id}', name: 'app_hospedagem_show', methods: ['GET', 'POST'])]
     public function show(Hospedagem $hospedagem, Request $request): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
         $servico = new Servicos();
         $formServico = $this->createForm(ServicosType::class, $servico);
         $servico->setHospedagem($hospedagem);
@@ -125,6 +127,7 @@ class HospedagemController extends AbstractController
     #[Route('/{id}/edit', name: 'app_hospedagem_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Hospedagem $hospedagem): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
         $form = $this->createForm(HospedagemType::class, $hospedagem);
         $form->handleRequest($request);
 
@@ -143,6 +146,7 @@ class HospedagemController extends AbstractController
     #[Route('/{id}/recibo', name: 'app_hospedagem_recibo', methods: ['GET'])]
     public function recibo(Request $request, Hospedagem $hospedagem): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
         $recibo = $hospedagem->getRecibo();
         return $this->render('recibo/index.html.twig', [
             'recibo' => $recibo

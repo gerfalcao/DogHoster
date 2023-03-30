@@ -31,6 +31,7 @@ class CachorroController extends AbstractController
     #[Route('/', name: 'app_cachorro_index', methods: ['GET'])]
     public function index(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
         return $this->render('cachorro/index.html.twig', [
             'cachorros' => $this->cachorroRepository->findAll(),
         ]);
@@ -39,6 +40,7 @@ class CachorroController extends AbstractController
     #[Route('/new', name: 'app_cachorro_new', methods: ['GET', 'POST'])]
     public function new(Request $request, SluggerInterface $slugger): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
         $cachorro = new Cachorro();
       
         $form = $this->createForm(CachorroType::class, $cachorro);

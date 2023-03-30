@@ -32,6 +32,7 @@ class DonoController extends AbstractController
     #[Route('/', name: 'app_dono_index', methods: ['GET'])]
     public function index(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
         return $this->render('dono/index.html.twig', [
             'donos' => $this->donoRepository->findAll(),
         ]);
@@ -40,6 +41,7 @@ class DonoController extends AbstractController
     #[Route('/new', name: 'app_dono_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
         $dono = new Dono();
 
         // $cachorro = new Cachorro();
@@ -91,6 +93,7 @@ class DonoController extends AbstractController
     #[Route('/{id}', name: 'app_dono_show', methods: ['GET'])]
     public function show(Dono $dono): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
         $cachorros = $dono->getCachorro();
         return $this->render('dono/show.html.twig', [
             'dono' => $dono,
@@ -155,6 +158,7 @@ class DonoController extends AbstractController
     #[Route('/{id}', name: 'app_dono_delete', methods: ['POST'])]
     public function delete(Request $request, Dono $dono): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
         if ($this->isCsrfTokenValid('delete'.$dono->getId(), $request->request->get('_token'))) {
             $this->donoRepository->remove($dono, true);
         }
