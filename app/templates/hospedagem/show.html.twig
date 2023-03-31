@@ -122,12 +122,12 @@
                 
                     <tr>
                         <th>Duração estimada</th>
-                        <td>{{ hospedagem.getPeriodo().format('%h horas, %i minutos') }}</td>
+                        <td>{{ hospedagem.getPeriodo().format('%d dias, %h horas, %i minutos') }}</td>
                     </tr>
                     <tr>
                         <th>Preço Estadia</th>
                         <td>
-                            <ul>R$ {{ valor_diarias }}
+                            <ul>R$ {{ valor_diarias|number_format(2, ',', '.') }}
                                 <li>R${{ (hospedagem.getCachorro().getPorte() - 1) * 5 }}/período adicionais referente ao porte <b>{{ hospedagem.getCachorro().getPorteTexto()  }}</b></li>
                                 <li>R${{ ((hospedagem.getCachorro().getAgressividade())/ 100) * 10 }}/período adicionais referente à agressividade (taxa de {{ hospedagem.getCachorro().getAgressividade() }}%)</li></ul>
                             </td>
@@ -152,7 +152,7 @@
             </table>
     
             <hr>
-            <div><b>Preço Parcial:</b> R$ {{ valor_total }}</div>
+            <div><b>Preço Parcial:</b> R$ {{ valor_total|number_format(2, ',', '.') }}</div>
         </div>
 
         <div class="card3">
