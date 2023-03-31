@@ -123,7 +123,7 @@ class Hospedagem
     {   
         if (is_null($this->getDataFim())) {
 
-            return new DateInterval('PT12H');
+            return $this->getDataInicio()->diff(new DateTime());;
         } else { 
 
             return $this->getDataInicio()->diff($this->getDataFim());
@@ -132,7 +132,8 @@ class Hospedagem
     }
 
     public function calcTotalPeriodos() {
-        $horas = $this->getPeriodo()->h;
+        $diasEmHoras = $this->getPeriodo()->d * 24;
+        $horas = $this->getPeriodo()->h + $diasEmHoras;
         $minutos = $this->getPeriodo()->i;
 
         $periodo = $horas / HospedagemConstants::HORAS_POR_PERIODO + (ceil($minutos% HospedagemConstants::HORAS_POR_PERIODO) > 0 ? 1 : 0);
@@ -151,7 +152,7 @@ class Hospedagem
     public function calcularPrecoEstadia() {
         $precoAgressividade = (($this->getCachorro()->getAgressividade()) / 100) * 10;
         $precoPorte = ($this->getCachorro()->getPorte() - 1) * 5;
-        $precoEstadia = $this->calcTotalPeriodos() * HospedagemConstants::VALOR_PERIODO + $precoPorte + $precoAgressividade;
+        $precoEstadia = $this->calcTotalPeriodos() * (HospedagemConstants::VALOR_PERIODO + $precoPorte + $precoAgressividade);
         return $precoEstadia;
     }
 

@@ -35,7 +35,7 @@
     </td>
 
     <td>
-    R$ {{ recibo.getPrecoTotal() }}
+    R$ {{ recibo.getPrecoTotal()|number_format(2, ',', '.') }}
     </td>
 
     <td>

@@ -173,7 +173,7 @@ class HospedagemController extends AbstractController
         $hospedagem->setRecibo($recibo);
         $this->em->flush();
 
-        return $this->render('recibo/index.html.twig', [
+        return $this->redirectToRoute('app_hospedagem_recibo', ['id' => $hospedagem->getId()], Response::HTTP_SEE_OTHER, [
             'recibo' => $recibo
         ]);
         

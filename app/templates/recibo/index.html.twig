@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="item-show">
-<div class="recibo">
+<div class="dono-container">
 <h1>Recibo hospedagem {{ recibo.hospedagem.id }} </h1>
 
 <p>Recibo da hospedagem ID {{ recibo.hospedagem.id }}:</p>
@@ -17,12 +17,20 @@
 {% for servico in recibo.hospedagem.getServicos() %}
 <p>+ {{ servico.getQuantidade() }} {{ servico.getNome() }}: R$ {{ servico.calculaQuantidadePorPreco() }}</p> 
 {% endfor %}
-<p><b>Preço Total Estadia</b><ul>R$ {{ recibo.getPrecoEstadia() }}
+<p><b>Preço Total Estadia</b><ul>R$ {{ recibo.getPrecoEstadia()|number_format(2, ',', '.') }}
+                        <li>O cachorro permaneceu o total de {{ recibo.hospedagem.calcTotalPeriodos()|number_format(1, ',', '.')}} períodos (períodos de 12 horas)</li>
                         <li>R${{ (recibo.getHospedagem().getCachorro().getPorte() - 1) * 5 }}/período adicionais referente ao porte <b>{{ recibo.getHospedagem().getCachorro().getPorteTexto()  }}</b></li>
                         <li>R${{ ((recibo.getHospedagem().getCachorro().getAgressividade())/ 100) * 10 }}/período adicionais referente à agressividade</li></ul></p>
 <hr>
-<p><b>Preço Final</b>: R$ {{ recibo.getPrecoTotal() }}</p>
+<p><b>Preço Final</b>: R$ {{ recibo.getPrecoTotal()|number_format(2, ',', '.') }}</p>
 
+<div class="card3">
+            <p>Registro de ocorrências</p>
+            {% for ocorrencia in recibo.getHospedagem().getOcorrencias() %}
+            <p> {{ ocorrencia.getOcorrencia() }} </p>
+            {% endfor %}
+        </div>
+<br>
   <div class="print">
     <button onclick="window.print()">Imprimir / Salvar PDF</button>
   </div>

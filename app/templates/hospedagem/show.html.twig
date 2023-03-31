@@ -51,13 +51,17 @@
                                     <label for="basic-url" class="form-label">Preço unitário</label>
                                     <div class="input-group mb-3">
                                     <span class="input-group-text">R$</span>
+                                    <span class="w-25">
                                     {{ form_row(form_servico.preco, {'attr': {'class': 'form-control'}}) }}
+                                    </span>
                                     <span class="input-group-text">,00</span>
                                     </div>
                                     <label for="basic-url" class="form-label">Quantidade</label>  
-                                    <div class="input-group">
-                                        <button class="input-group-text" type="button" id="button-addon1">-</button>
-                                        {{ form_widget(form_servico.quantidade, {'attr': {'class': 'form-control'}}) }}                              <button class="input-group-text" type="button" id="button-addon2">+</button>
+                                   <div class="w-25">
+                                        <div class="input-group">
+                                            <button class="input-group-text" type="button" id="button-addon1">-</button>
+                                            {{ form_widget(form_servico.quantidade, {'attr': {'class': 'form-control'}}) }}                              <button class="input-group-text" type="button" id="button-addon2">+</button>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
