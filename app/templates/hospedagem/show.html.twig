@@ -121,13 +121,14 @@
                     </tr>
                 
                     <tr>
-                        <th>Duração estimada</th>
+                        <th>Duração até o momento:</th>
                         <td>{{ hospedagem.getPeriodo().format('%d dias, %h horas, %i minutos') }}</td>
                     </tr>
                     <tr>
                         <th>Preço Estadia</th>
                         <td>
                             <ul>R$ {{ valor_diarias|number_format(2, ',', '.') }}
+                                <li>{{ hospedagem.calcTotalPeriodos()|number_format(1, ',', '.')}} períodos até o momento (períodos de 12 horas)</li>
                                 <li>R${{ (hospedagem.getCachorro().getPorte() - 1) * 5 }}/período adicionais referente ao porte <b>{{ hospedagem.getCachorro().getPorteTexto()  }}</b></li>
                                 <li>R${{ ((hospedagem.getCachorro().getAgressividade())/ 100) * 10 }}/período adicionais referente à agressividade (taxa de {{ hospedagem.getCachorro().getAgressividade() }}%)</li></ul>
                             </td>
