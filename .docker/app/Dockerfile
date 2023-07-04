@@ -18,3 +18,4 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN chown -R www-data .
 
 EXPOSE 9000
+
